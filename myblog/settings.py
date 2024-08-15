@@ -47,6 +47,11 @@ INSTALLED_APPS = [
 
     'myblog.apps.users',
     'myblog.apps.posts',
+
+    'tailwind',
+    'theme',  # tailwind compatible apps
+
+    'django_browser_reload'  # dev only
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -59,6 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'myblog.urls'
@@ -169,6 +176,12 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
+
+TAILWIND_APP_NAME = 'theme'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -2,6 +2,8 @@ Django==5.0.6
 django-model-utils==4.5.1
 django-thumbnails==0.8.0
 django-redis==5.4.0
+django-tailwind==3.8.0
+django-browser-reload==1.13.0  # dev
 
 psycopg2-binary==2.9.9
 
