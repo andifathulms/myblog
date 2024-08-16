@@ -1,11 +1,8 @@
-{% load static tailwind_tags %}
-<html>
-    <head>
-        {% tailwind_css %}
-    </head>
+{% extends 'base.html' %}
 
-    <body>
-        <h1>Hello World!</h1>
-        <p>This is my amazing website</p>
-    </body>
-</html>
+{% block content %}
+
+{% include 'include/featured.html' %}
+{% include 'include/post_list.html' %}
+
+{% endblock content %}
