@@ -33,7 +33,9 @@
     <header class="fixed top-0 left-0 w-full shadow-lg bg-white z-50">
         <nav class="container max-w-full lg:max-w-[80rem] mx-auto flex justify-between">
             <div class="w-[130px] md:w-[200px] flex items-center">
-                <img src="https://i.postimg.cc/MZCBXb1K/logo.png" alt="LOGO" srcset="">
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.png' %}" alt="LOGO" srcset="">
+                </a>
             </div>
     
             <div class="flex items-center gap-3">
@@ -46,7 +48,7 @@
                     </ul>                                                                     
                 </div>
                 <div class="flex items-center gap-2">
-                    <button type="button" class="hover:bg-clip-text hover:text-transparent bg-gradient-to-br from-[#B7B597] to-[#6B8A7A] border-solid border-2 border-[#6B8A7A] font-bold text-[#333] px-5 py-2 rounded-full">Sign In</button>
+                    {% comment %} <button type="button" class="hover:bg-clip-text hover:text-transparent bg-gradient-to-br from-[#B7B597] to-[#6B8A7A] border-solid border-2 border-[#6B8A7A] font-bold text-[#333] px-5 py-2 rounded-full">Sign In</button> {% endcomment %}
                     <i class="fa-solid fa-bars menu-icon" onclick="onMenuToggle(this)"></i>
                 </div> 
             </div>

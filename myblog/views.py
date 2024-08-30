@@ -1,15 +1,17 @@
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 
-from myblog.apps.posts.models import Post
+from myblog.apps.posts.models import Post, Category
 
 
 def index(request: HttpRequest) -> HttpResponse:
+    categories = Category.objects.all()
     posts = Post.objects.filter(status=Post.STATUS.published) \
         .select_related('category', 'author').prefetch_related('tags').order_by('-created')
     context_data = {
         'title': 'Home',
-        'posts': posts
+        'posts': posts,
+        'categories': categories
     }
     return render(request, "index.html", context_data)
 
