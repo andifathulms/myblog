@@ -66,7 +66,13 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            slug = base_slug
+            i = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{i}"
+                i += 1
+            self.slug = slug
 
         if not self.read_time:
             self.read_time = len(self.content.split()) // 200  # Rough estimate: 200 words/minute
