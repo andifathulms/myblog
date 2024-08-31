@@ -29,7 +29,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body class="bg-[#F8F8F8] text-[#333]">
+<body class="min-h-screen flex flex-col bg-[#F8F8F8] text-[#333]">
     <header class="fixed top-0 left-0 w-full shadow-lg bg-white z-50">
         <nav class="container max-w-full lg:max-w-[80rem] mx-auto flex justify-between">
             <div class="w-[130px] md:w-[200px] flex items-center">
@@ -55,7 +55,9 @@
         </nav>
     </header>    
 
-    {% block content %}{% endblock content %}
+    <div class="flex-grow">
+        {% block content %}{% endblock content %}
+    </div>
 
     <footer class="bg-white text-[#333] py-8">
         <div class="container max-w-full lg:max-w-[1080px] mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
