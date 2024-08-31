@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -6,5 +6,6 @@ from . import views
 app_name = "backoffice"
 
 urlpatterns = [
-    path('', views.index, name="index")
+    path('', views.index, name="index"),
+    path('posts/', include("myblog.backoffice.posts.urls"))
 ]
