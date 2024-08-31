@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-6">Backoffice Dashboard</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="#" class="block bg-white rounded-lg shadow-lg p-6 hover:bg-gray-100 transition">
+            <h2 class="text-xl font-semibold mb-2">Manage Posts</h2>
+            <p>View, create, edit, and delete blog posts.</p>
+        </a>
+
+        <a href="#" class="block bg-white rounded-lg shadow-lg p-6 hover:bg-gray-100 transition">
+            <h2 class="text-xl font-semibold mb-2">Manage Categories</h2>
+            <p>Organize your blog with different categories.</p>
+        </a>
+
+        <a href="#" class="block bg-white rounded-lg shadow-lg p-6 hover:bg-gray-100 transition">
+            <h2 class="text-xl font-semibold mb-2">Manage Tags</h2>
+            <p>Create and manage tags for your posts.</p>
+        </a>
+
+        <a href="#" class="block bg-white rounded-lg shadow-lg p-6 hover:bg-gray-100 transition">
+            <h2 class="text-xl font-semibold mb-2">Manage Users</h2>
+            <p>Manage user accounts and permissions.</p>
+        </a>
+
+        <a href="#" class="block bg-white rounded-lg shadow-lg p-6 hover:bg-gray-100 transition">
+            <h2 class="text-xl font-semibold mb-2">Manage Comments</h2>
+            <p>Review and moderate comments from readers.</p>
+        </a>
+
+        <a href="#" class="block bg-white rounded-lg shadow-lg p-6 hover:bg-gray-100 transition">
+            <h2 class="text-xl font-semibold mb-2">Settings</h2>
+            <p>Adjust site settings and preferences.</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

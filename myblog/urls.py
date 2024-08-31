@@ -25,6 +25,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
+    path('backoffice/', include('myblog.backoffice.urls')), 
     path('<slug:slug>/', views.details, name="details"),
     path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
