@@ -7,5 +7,6 @@ app_name = "categories"
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('add/', views.add, name="add")
+    path('manage/', views.manage, name="manage"),
+    path('<int:id>/', views.manage, name='manage')
 ]
