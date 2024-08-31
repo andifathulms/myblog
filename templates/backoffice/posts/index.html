@@ -4,6 +4,44 @@
 <div class="container mx-auto mt-8">
     <h1 class="text-2xl font-bold mb-6">Manage Posts</h1>
 
+    <div class="mb-8 p-4 bg-white rounded-lg shadow-md">
+        <form method="get" class="flex flex-col md:flex-row gap-4">
+            <!-- Status Filter -->
+            <div class="flex-1">
+                <label for="id_status" class="block text-sm font-medium text-gray-700">Status</label>
+                {{ form.status }}
+            </div>
+            
+            <!-- Language Filter -->
+            <div class="flex-1">
+                <label for="id_language" class="block text-sm font-medium text-gray-700">Language</label>
+                {{ form.language }}
+            </div>
+            
+            <!-- Created Date Range Filter -->
+            <div class="flex-1">
+                <label for="id_created_start_date" class="block text-sm font-medium text-gray-700">Created Start Date</label>
+                {{ form.created_start_date }}
+            </div>
+            <div class="flex-1">
+                <label for="id_created_end_date" class="block text-sm font-medium text-gray-700">Created End Date</label>
+                {{ form.created_end_date }}
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="flex-1">
+                <label for="id_category" class="block text-sm font-medium text-gray-700">Category</label>
+                {{ form.category }}
+            </div>
+            
+            <div class="flex items-end">
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-[#6B8A7A] border border-transparent rounded-md shadow-sm text-white font-medium hover:bg-[#5a7363] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6B8A7A]">
+                    Apply Filters
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">
         <table class="min-w-full bg-white">
             <thead class="bg-gray-200">
