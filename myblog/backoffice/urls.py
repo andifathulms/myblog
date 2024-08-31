@@ -7,5 +7,6 @@ app_name = "backoffice"
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('posts/', include("myblog.backoffice.posts.urls"))
+    path('posts/', include("myblog.backoffice.posts.urls")),
+    path('categories/', include("myblog.backoffice.categories.urls"))
 ]
