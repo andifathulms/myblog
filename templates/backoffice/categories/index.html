@@ -26,8 +26,10 @@
                     <td class="text-left py-3 px-4">
                         <button class="text-blue-500 hover:underline edit-category-btn" data-id="{{ category.id }}" data-name="{{ category.name }}">
                             Edit
+                        </button> |
+                        <button class="text-red-500 hover:underline delete-category-btn" data-id="{{ category.id }}" data-name="{{ category.name }}">
+                            Delete
                         </button>
-                        <a href="#" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -45,9 +47,23 @@
                 <button type="button" id="cancel-btn" class="bg-red-500 text-white py-2 px-4 rounded mt-4">Cancel</button>
             </form>
         </div>
-    </div>  
+    </div>
 
-    <!-- Pagination -->
+    <div id="deleteModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 class="text-lg font-bold mb-4" id="deleteModalTitle">Delete Category</h2>
+            <p id="deleteModalMessage">Are you sure you want to delete this category?</p>
+            <div class="flex justify-end space-x-4 mt-4">
+                <button id="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Delete
+                </button>
+                <button id="cancelDelete" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>    
+
     {% if categories.has_other_pages %}
         <div class="flex justify-center mt-8">
             <nav class="inline-flex rounded-md shadow">
@@ -79,27 +95,66 @@
         const categoryForm = document.getElementById('category-form');
         const modalTitle = document.getElementById('modal-title');
 
-        // Show modal for adding category
+        const deleteModal = document.getElementById('deleteModal');
+        const deleteModalTitle = document.getElementById('deleteModalTitle');
+        const deleteModalMessage = document.getElementById('deleteModalMessage');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const cancelDelete = document.getElementById('cancelDelete');
+
+        // Add Category
         addCategoryBtn.addEventListener('click', function() {
             modalTitle.textContent = 'Add Category';
             categoryForm.action = "{% url 'backoffice:categories:manage' %}";
             modal.classList.remove('hidden');
         });
 
-        // Show modal for editing category
+        // Edit Category
         document.querySelectorAll('.edit-category-btn').forEach(function(editBtn) {
             editBtn.addEventListener('click', function() {
                 const categoryId = this.dataset.id;
                 const categoryName = this.dataset.name;
                 
-                modalTitle.textContent = `Edit Category: ${categoryName}`;
+                modalTitle.textContent = `Edit Category`;
                 categoryForm.action = "{% url 'backoffice:categories:manage' id=12345678 %}".replace('12345678', categoryId);
-                
-                // Set the form values
                 document.querySelector('#id_name').value = categoryName;
                 
                 modal.classList.remove('hidden');
             });
+        });
+
+        let deleteUrl = '';
+        document.querySelectorAll('.delete-category-btn').forEach(function(deleteBtn) {
+            deleteBtn.addEventListener('click', function() {
+                const categoryId = this.dataset.id;
+                const categoryName = this.dataset.name;
+                
+                deleteUrl = "{% url 'backoffice:categories:delete' id=12345678 %}".replace('12345678', categoryId);
+                deleteModalMessage.textContent = `Are you sure you want to delete the category "${categoryName}"?`;
+                
+                deleteModal.classList.remove('hidden');
+            });
+        });
+
+        confirmDelete.addEventListener('click', function() {
+            fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('An error occurred while deleting the category.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the category.');
+            });
+        });
+
+        cancelDelete.addEventListener('click', function() {
+            deleteModal.classList.add('hidden');
         });
 
         // Handle form submission via AJAX

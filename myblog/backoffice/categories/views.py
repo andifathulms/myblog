@@ -45,3 +45,13 @@ def manage(request: HttpRequest, id: Optional[int] = None) -> HttpResponse:
             return JsonResponse({'success': False, 'errors': form.errors})
 
     return JsonResponse({'success': False})
+
+
+@author_required
+def delete(request, id):
+    try:
+        category = get_object_or_404(Category, pk=id)
+        category.delete()
+        return JsonResponse({'status': 'success'})
+    except Category.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Category not found'}, status=404)
