@@ -23,3 +23,10 @@ def details(request: HttpRequest, slug) -> HttpResponse:
         'title': post.title
     }
     return render(request, "details.html", context_data)
+
+
+def about_me(request: HttpRequest) -> HttpResponse:
+    context_data = {
+        'title': 'About Me'
+    }
+    return render(request, "about_me.html", context_data)

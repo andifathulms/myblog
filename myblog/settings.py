@@ -173,6 +173,9 @@ THUMBNAILS = {
 
 STATIC_ROOT = os.path.join(SETTINGS_DIR, 'static')
 STATIC_URL = 'static/'
+STATICFILES_DIRS = (
+    path.join(PROJECT_ROOT, 'static_files'),
+)
 
 MEDIA_ROOT = path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'

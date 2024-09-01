@@ -33,18 +33,23 @@
     <header class="fixed top-0 left-0 w-full shadow-lg bg-white z-50">
         <nav class="container max-w-full lg:max-w-[80rem] mx-auto flex justify-between">
             <div class="w-[130px] md:w-[200px] flex items-center">
-                <a href="{% url 'index' %}">
-                    <img src="{% static 'img/logo.png' %}" alt="LOGO" srcset="">
+                <a href="{% url 'index' %}" class="text-2xl font-bold text-[#333]">
+                    InsightfulBytes
                 </a>
-            </div>
-    
+            </div>            
+
             <div class="flex items-center gap-3">
                 <div class="navLinks duration-500 absolute md:static md:w-auto w-full md:h-auto h-[85vh] bg-white flex md:items-center gap-[1.5vw] top-[100%] left-[-100%] px-5 md:py-0 py-5">
                     <ul class="flex md:flex-row flex-col md:items-center md:gap-[1vw]">
                         {% for category in categories %}
                             <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto"><a href="#">{{ category }}</a></li>
                         {% endfor %}
-                        <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto"><a href="#">About me</a></li>
+                        <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto"><a href="{% url 'about_me' %}">About me</a></li>
+                        {% if user.is_authenticated and user.is_superuser %}
+                            <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto">
+                                <a href="{% url 'backoffice:index' %}">Backoffice</a>
+                            </li>
+                        {% endif %}
                     </ul>                                                                     
                 </div>
                 <div class="flex items-center gap-2">
@@ -77,17 +82,17 @@
                 <a href="#" class="hover:text-[#6B8A7A]">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="#" class="hover:text-[#6B8A7A]">
+                <a href="https://www.linkedin.com/in/andifathulmukminin/" class="hover:text-[#6B8A7A]">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="#" class="hover:text-[#6B8A7A]">
+                <a href="https://www.instagram.com/andifathulms?igsh=bTU2b2Z5c2FuYjR1" class="hover:text-[#6B8A7A]">
                     <i class="fab fa-instagram"></i>
                 </a>
             </div>
     
             <!-- Copyright Information -->
             <div class="text-center md:text-right text-sm">
-                <p>&copy; 2024 Your Blog Name. All rights reserved.</p>
+                <p>&copy; 2024 InsightfulBytes. All rights reserved.</p>
             </div>
         </div>
     </footer>
