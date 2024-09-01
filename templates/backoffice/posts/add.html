@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .required-field {
+        color: red;
+        font-weight: bold;
+    }
+    .optional-field {
+        color: gray;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">
+    <h1 class="text-2xl font-bold mb-6">Add New Post</h1>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <div class="flex items-center space-x-4">
+            <label for="id_title" class="w-1/4 text-sm font-medium text-gray-700 required-field">Title</label>
+            <div class="flex-1">
+                <input type="text" name="title" id="id_title" class="form-input w-full" placeholder="Title">
+                {% if form.title.errors %}
+                    <p class="text-red-500 text-sm">{{ form.title.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_status" class="w-1/4 text-sm font-medium text-gray-700 required-field">Status</label>
+            <div class="flex-1">
+                <select name="status" id="id_status" class="form-select w-full">
+                    {% for value, display in form.status.field.choices %}
+                        <option value="{{ value }}" {% if value == form.status.value %}selected{% endif %}>{{ display }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.status.errors %}
+                    <p class="text-red-500 text-sm">{{ form.status.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_language" class="w-1/4 text-sm font-medium text-gray-700 required-field">Language</label>
+            <div class="flex-1">
+                <select name="language" id="id_language" class="form-select w-full">
+                    {% for value, display in form.language.field.choices %}
+                        <option value="{{ value }}" {% if value == form.language.value %}selected{% endif %}>{{ display }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.language.errors %}
+                    <p class="text-red-500 text-sm">{{ form.language.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_category" class="w-1/4 text-sm font-medium text-gray-700 required-field">Category</label>
+            <div class="flex-1">
+                <select name="category" id="id_category" class="form-select w-full">
+                    <option value="" {% if not form.category.value %}selected{% endif %}>----</option>
+                    {% for category in form.category.field.queryset %}
+                        <option value="{{ category.id }}" {% if category.id == form.category.value %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.category.errors %}
+                    <p class="text-red-500 text-sm">{{ form.category.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_tags" class="w-1/4 text-sm font-medium text-gray-700 required-field">Tags</label>
+            <div class="flex-1">
+                <div class="flex flex-col space-y-2">
+                    {% for tag in form.tags.field.queryset %}
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="tags" value="{{ tag.id }}" {% if tag.id in form.tags.value %}checked{% endif %} class="form-checkbox">
+                            <span class="ml-2">{{ tag.name }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+                {% if form.tags.errors %}
+                    <p class="text-red-500 text-sm">{{ form.tags.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex flex-col space-y-4">
+            <label for="id_content" class="text-sm font-medium text-gray-700 required-field">Content</label>
+            <textarea name="content" id="id_content" class="form-textarea w-full" placeholder="Content" style="height: 200px;"></textarea>
+            {% if form.content.errors %}
+                <p class="text-red-500 text-sm">{{ form.content.errors }}</p>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-col space-y-4">
+            <label for="id_excerpt" class="text-sm font-medium text-gray-700 required-field">Excerpt</label>
+            <textarea name="excerpt" id="id_excerpt" class="form-textarea w-full" placeholder="Excerpt"></textarea>
+            {% if form.excerpt.errors %}
+                <p class="text-red-500 text-sm">{{ form.excerpt.errors }}</p>
+            {% endif %}
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_featured_image" class="w-1/4 text-sm font-medium text-gray-700 required-field">Featured Image</label>
+            <div class="flex-1">
+                <input type="file" name="featured_image" id="id_featured_image" class="form-file w-full">
+                {% if form.featured_image.errors %}
+                    <p class="text-red-500 text-sm">{{ form.featured_image.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_allow_comments" class="w-1/4 text-sm font-medium text-gray-700 optional-field">Allow Comments</label>
+            <div class="flex-1">
+                <input type="checkbox" name="allow_comments" id="id_allow_comments" {% if form.allow_comments.value %}checked{% endif %} class="form-checkbox">
+                {% if form.allow_comments.errors %}
+                    <p class="text-red-500 text-sm">{{ form.allow_comments.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex flex-col space-y-4">
+            <label for="id_meta_description" class="text-sm font-medium text-gray-700 optional-field">Meta Description</label>
+            <textarea name="meta_description" id="id_meta_description" class="form-textarea w-full" placeholder="Meta Description"></textarea>
+            {% if form.meta_description.errors %}
+                <p class="text-red-500 text-sm">{{ form.meta_description.errors }}</p>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-col space-y-4">
+            <label for="id_meta_keywords" class="text-sm font-medium text-gray-700 optional-field">Meta Keywords</label>
+            <textarea name="meta_keywords" id="id_meta_keywords" class="form-textarea w-full" placeholder="Meta Keywords"></textarea>
+            {% if form.meta_keywords.errors %}
+                <p class="text-red-500 text-sm">{{ form.meta_keywords.errors }}</p>
+            {% endif %}
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_canonical_url" class="w-1/4 text-sm font-medium text-gray-700 optional-field">Canonical URL</label>
+            <div class="flex-1">
+                <input type="url" name="canonical_url" id="id_canonical_url" class="form-url w-full" placeholder="Canonical URL">
+                {% if form.canonical_url.errors %}
+                    <p class="text-red-500 text-sm">{{ form.canonical_url.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_og_title" class="w-1/4 text-sm font-medium text-gray-700 optional-field">OG Title</label>
+            <div class="flex-1">
+                <input type="text" name="og_title" id="id_og_title" class="form-input w-full" placeholder="OG Title">
+                {% if form.og_title.errors %}
+                    <p class="text-red-500 text-sm">{{ form.og_title.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex flex-col space-y-4">
+            <label for="id_og_description" class="text-sm font-medium text-gray-700 optional-field">OG Description</label>
+            <textarea name="og_description" id="id_og_description" class="form-textarea w-full" placeholder="OG Description"></textarea>
+            {% if form.og_description.errors %}
+                <p class="text-red-500 text-sm">{{ form.og_description.errors }}</p>
+            {% endif %}
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <label for="id_og_image" class="w-1/4 text-sm font-medium text-gray-700 optional-field">OG Image</label>
+            <div class="flex-1">
+                <input type="file" name="og_image" id="id_og_image" class="form-file w-full">
+                {% if form.og_image.errors %}
+                    <p class="text-red-500 text-sm">{{ form.og_image.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Save Post</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,24 +1,27 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 from thumbnails.fields import ImageField
 
+from myblog.apps.users.models import User
 from myblog.core.utils import FilenameGenerator
 
 from model_utils import Choices
+from typing import Optional
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -64,7 +67,7 @@ class Post(models.Model):
     og_description = models.TextField(blank=True, null=True)
     og_image = ImageField(upload_to=FilenameGenerator(prefix='og_images'), blank=True, null=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> 'Post':
         if not self.slug:
             base_slug = slugify(self.title)
             slug = base_slug
@@ -76,10 +79,25 @@ class Post(models.Model):
 
         if not self.read_time:
             self.read_time = len(self.content.split()) // 200  # Rough estimate: 200 words/minute
-        super().save(*args, **kwargs)
+
+        post = super().save(*args, **kwargs)
+        return post
 
     def __str__(self):
         return self.title
+
+    def drafted(self, created_by: Optional[User], notes: Optional[str] = '') -> None:
+        self.status = self.STATUS.draft
+        self.save(update_fields=['status'])
+
+        self.logs.create(action=PostLog.ACTION.drafted, created_by=created_by, notes=notes)
+
+    def published(self, created_by: Optional[User], notes: Optional[str] = '') -> None:
+        self.status = self.STATUS.published
+        self.published_date = timezone.now()
+        self.save(update_fields=['status', 'published_date'])
+
+        self.logs.create(action=PostLog.ACTION.published, created_by=created_by, notes=notes)
 
 
 class Comment(models.Model):
@@ -98,6 +116,7 @@ class PostLog(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='logs')
 
     ACTION = Choices(
+        (5, 'created', 'Created'),
         (10, 'drafted', 'Drafted'),
         (11, 'published', 'Published'),
         (12, 'archived', 'Archived'),
