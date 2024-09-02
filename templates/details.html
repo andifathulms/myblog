@@ -33,38 +33,49 @@
     
     .bg-[#F8F4E1] {
         background-color: #F8F4E1;
-    }    
+    }
+    
+    .icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 50%;
+        background-color: #F8F4E1;
+        color: #254336;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .icon-button:hover {
+        background-color: #254336;
+        color: white;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <section class="bg-[#FFFBF5] py-16">
     <div class="container max-w-full lg:max-w-[1080px] mx-auto px-4">
-        <!-- Post Title -->
         <h1 class="text-4xl md:text-5xl font-bold text-[#254336] mb-8 mt-8">{{ post.title }}</h1>
 
-
-        <!-- Post Excerpt -->
-        <p class="text-xl text-[#6B8A7A] mb-6">
-            {{ post.excerpt }}
-        </p>
-        
-        <!-- Post Metadata -->
+        <!-- Author Info and Read Time -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-center text-gray-600 mb-8">
             <div class="flex items-center space-x-3">
                 <img src="https://via.placeholder.com/50" alt="Author Image" class="w-12 h-12 rounded-full">
                 <div>
-                    <p class="text-lg font-semibold text-[#254336]">{{ post.author }}</p>
-                    <p class="text-sm">{{ post.published_date|date:"F j, Y" }}</p>
+                    <p class="text-lg font-semibold text-[#254336]">{{ post.author.name }}</p>
+                    <p class="text-sm">Published {{ post.published_date|date:"H:i D, F Y" }}</p>
                 </div>
             </div>
-            <div class="text-sm">
-                <span>{{ post.read_time }} minute read</span> |
-                <span>{{ post.category.name }}</span>
+            <div class="text-sm text-gray-600 flex items-center space-x-2">
+                <i class="fas fa-clock"></i>
+                <span>{{ post.read_time }} min read</span>
+                <i class="fas fa-eye mr-2"></i>
+                <span>{{ post.views }} views</span>
             </div>
         </div>
 
-        <!-- Post Image -->
+        <!-- Featured Image -->
         <div class="mb-8">
             <img src="{{ post.featured_image.url }}" alt="Post Image" class="w-full h-auto rounded-lg shadow-md">
         </div>
@@ -72,6 +83,23 @@
         <!-- Post Content -->
         <div class="prose max-w-none text-lg text-gray-700 leading-relaxed text-justify" style="text-indent: 4em;">
             {{ post.content | safe }}
+        </div>
+
+        <!-- Share Buttons -->
+        <div class="mt-8 flex items-center gap-4">
+            <span class="text-[#6B8A7A] text-lg">Share:</span>
+            <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}" target="_blank" class="icon-button">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="icon-button">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="icon-button">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <button onclick="navigator.clipboard.writeText('{{ request.build_absolute_uri }}')" class="icon-button">
+                <i class="fas fa-link"></i>
+            </button>
         </div>
 
         <!-- Tags -->
@@ -83,13 +111,59 @@
             {% endfor %}
         </div>
 
-        <!-- Author Bio -->
-        <div class="mt-16 bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row items-center gap-6">
-            <img src="https://via.placeholder.com/100" alt="Author Image" class="w-24 h-24 rounded-full">
-            <div>
-                <h2 class="text-2xl font-bold text-[#254336]">{{ post.author }}</h2>
-                <p class="text-gray-600">{{ post.author_bio }}</p>
+        <!-- More Like This Section -->
+        <div class="mt-12">
+            <h3 class="text-2xl font-semibold text-[#254336] mb-4">More Like This</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for related_post in related_posts %}
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <a href="{% url 'details' slug=related_post.slug %}">
+                            <img src="{{ related_post.featured_image.url }}" alt="{{ related_post.title }}" class="w-full h-auto rounded-lg mb-4">
+                            <h4 class="text-lg font-semibold text-[#254336]">{{ related_post.title }}</h4>
+                            <p class="text-sm text-[#6B8A7A]">{{ related_post.excerpt }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-12">
+            <h3 class="text-2xl font-semibold text-[#254336] mb-4">Comments</h3>
+            {% for comment in comments %}
+                <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                    <p class="font-semibold text-[#254336]">
+                        {% if comment.author %}
+                            {{ comment.author_name }}
+                        {% else %}
+                            {{ comment.username }}
+                        {% endif %}
+                    </p>
+                    <p class="text-sm text-gray-600">{{ comment.created|date:"F j, Y, g:i a" }}</p>
+                    <p class="mt-2 text-[#6B8A7A]">{{ comment.text }}</p>
+                </div>
+            {% empty %}
+                <p class="text-lg text-[#6B8A7A]">No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Form -->
+        <div class="mt-8">
+            <h3 class="text-2xl font-semibold text-[#254336] mb-4">Leave a Comment</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="author_name" class="block text-sm font-medium text-gray-700">Your Name</label>
+                    <input type="text" id="author_name" name="author_name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#254336] focus:border-[#254336] sm:text-sm" required>
+                </div>
+                <div class="mb-4">
+                    <label for="content" class="block text-sm font-medium text-gray-700">Your Comment</label>
+                    <textarea id="content" name="content" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#254336] focus:border-[#254336] sm:text-sm" required></textarea>
+                </div>
+                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#254336] hover:bg-[#6B8A7A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#254336]">
+                    Post Comment
+                </button>
+            </form>
         </div>
     </div>
 </section>

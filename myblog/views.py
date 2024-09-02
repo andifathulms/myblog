@@ -8,6 +8,7 @@ def index(request: HttpRequest) -> HttpResponse:
     categories = Category.objects.all()
     posts = Post.objects.filter(status=Post.STATUS.published) \
         .select_related('category', 'author').prefetch_related('tags').order_by('-created')
+
     context_data = {
         'title': 'Home',
         'posts': posts,
@@ -18,9 +19,13 @@ def index(request: HttpRequest) -> HttpResponse:
 
 def details(request: HttpRequest, slug) -> HttpResponse:
     post = Post.objects.get(slug=slug)
+    related_posts = Post.objects.filter(status=Post.STATUS.published).exclude(id=post.id)
+
     context_data = {
         'post': post,
-        'title': post.title
+        'related_posts': post.get_related_posts(),
+        'title': post.title,
+        'comments': post.comments.select_related('author').order_by('-created')
     }
     return render(request, "details.html", context_data)
 

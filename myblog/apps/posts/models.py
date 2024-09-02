@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -99,17 +100,26 @@ class Post(models.Model):
 
         self.logs.create(action=PostLog.ACTION.published, created_by=created_by, notes=notes)
 
+    def get_related_posts(self) -> QuerySet:
+        category = self.category
+        related_posts = Post.objects.filter(category=category, status=self.STATUS.published) \
+            .exclude(id=self.id).order_by('-created')
+        return related_posts
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies',
                                null=True, blank=True)
+    username = models.CharField(max_length=200, blank=True, null=True)
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='comments',
+                               blank=True, null=True)
 
     def __str__(self):
-        return f"Comment by {self.author.name} on {self.post}"
+        author = self.author.name if self.author else self.username
+        return f"Comment by {author} on {self.post}"
 
 
 class PostLog(models.Model):
