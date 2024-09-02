@@ -53,12 +53,36 @@
                     </ul>                                                                     
                 </div>
                 <div class="flex items-center gap-2">
-                    {% comment %} <button type="button" class="hover:bg-clip-text hover:text-transparent bg-gradient-to-br from-[#B7B597] to-[#6B8A7A] border-solid border-2 border-[#6B8A7A] font-bold text-[#333] px-5 py-2 rounded-full">Sign In</button> {% endcomment %}
                     <i class="fa-solid fa-bars menu-icon" onclick="onMenuToggle(this)"></i>
                 </div> 
             </div>
         </nav>
-    </header>    
+    </header>
+
+    <!-- Floating Message Popup -->
+    <div id="message-popup" class="fixed top-4 right-4 z-50 hidden max-w-sm w-full">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="p-4 mb-4 rounded-md text-white shadow-lg relative
+                    {% if message.tags == 'success' %}
+                        bg-green-500
+                    {% elif message.tags == 'error' %}
+                        bg-red-500
+                    {% elif message.tags == 'warning' %}
+                        bg-yellow-500
+                    {% elif message.tags == 'info' %}
+                        bg-blue-500
+                    {% else %}
+                        bg-gray-500
+                    {% endif %}">
+                    <p>{{ message }}</p>
+                    <button onclick="this.parentElement.style.display='none';" class="absolute top-2 right-2 text-white focus:outline-none">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
     <div class="flex-grow">
         {% block content %}{% endblock content %}
@@ -102,8 +126,17 @@
             const navlinks = document.querySelector(".navLinks");
             e.classList.toggle("fa-bars");
             e.classList.toggle("fa-times"); // Toggle between bars and times icon
-            navlinks.classList.toggle
+            navlinks.classList.toggle("left-[-100%]");
+            navlinks.classList.toggle("left-0");
         }
+
+        // Display the message popup if there are messages
+        document.addEventListener('DOMContentLoaded', function () {
+            const messages = document.querySelector('#message-popup');
+            if (messages.children.length > 0) {
+                messages.classList.remove('hidden');
+            }
+        });
     </script>
     {% block extra_js %}{% endblock %}      
 </body>
