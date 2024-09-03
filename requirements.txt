@@ -5,6 +5,7 @@ django-redis==5.4.0
 django-tailwind==3.8.0
 django-browser-reload==1.13.0  # dev
 django-editorjs-fields==0.2.7
+django-ckeditor-5==0.2.13
 
 psycopg2-binary==2.9.9
 

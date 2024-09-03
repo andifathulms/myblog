@@ -36,7 +36,10 @@ def details(request: HttpRequest, slug) -> HttpResponse:
         'related_posts': post.get_related_posts(),
         'form': form,
         'title': post.title,
-        'comments': post.comments.select_related('author').order_by('-created')
+        'comments': post.comments.select_related('author').order_by('-created'),
+        'toc': [{'level': 1, 'id': 1, 'text': 'Introduction'},
+                {'level': 2, 'id': 2, 'text': 'WTF'},
+                {'level': 1, 'id': 3, 'text': 'UFC'}]
     }
     return render(request, "details.html", context_data)
 

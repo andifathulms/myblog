@@ -9,6 +9,8 @@ from myblog.apps.users.models import User
 from myblog.core.utils import FilenameGenerator
 
 from model_utils import Choices
+from django_ckeditor_5.fields import CKEditor5Field
+
 from typing import Optional
 
 
@@ -46,7 +48,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, related_name='posts', on_delete=models.SET_NULL,
                                  null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
-    content = models.TextField()
+    content = CKEditor5Field('Text', config_name='extends')
     excerpt = models.TextField(blank=True, null=True)
     featured_image = ImageField(upload_to=FilenameGenerator(prefix='feature_images'),
                                 blank=True, null=True)
