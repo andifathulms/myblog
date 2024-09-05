@@ -8,6 +8,7 @@ django-editorjs-fields==0.2.7
 django-ckeditor-5==0.2.13
 
 psycopg2-binary==2.9.9
+beautifulsoup4==4.12.3
 
 asgiref==3.8.1
 sqlparse==0.5.0

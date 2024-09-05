@@ -4,6 +4,8 @@ from django.db.models.query import QuerySet
 from myblog.apps.posts.models import Post, Category, Tag, PostLog
 from myblog.apps.users.models import User
 
+from django_ckeditor_5.widgets import CKEditor5Widget
+
 from typing import Dict
 
 
@@ -60,8 +62,9 @@ class PostCreationForm(forms.Form):
                                       widget=forms.Select(attrs={'class': 'form-select'}))
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False,
                                           widget=forms.CheckboxSelectMultiple)
-    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-textarea',
-                                                           'placeholder': 'Content'}))
+    content = forms.CharField(
+        widget=CKEditor5Widget(attrs={'class': 'django_ckeditor_5', 'placeholder': 'Content'},
+                               config_name='extends'))
     excerpt = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'form-textarea',
                                                                            'placeholder': 'Excerpt'}))
     featured_image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-file'}))
