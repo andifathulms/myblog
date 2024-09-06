@@ -6,18 +6,24 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {% for post in posts %}
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden relative transition-transform transform cursor-pointer border-2 border-transparent hover:border-[#6B8A7A] flex flex-col h-full">
+            <div class="bg-white rounded-lg shadow-neumorphic overflow-hidden relative cursor-pointer border-2 border-transparent hover:border-[#070F2B] flex flex-col h-full transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
                 <a href="{% url 'details' slug=post.slug %}" class="block relative flex-grow z-10">
                     <!-- Category Ribbon -->
                     <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20">
                         {{ post.category.name }}
                     </div>
-                    <img src="{{ post.featured_image.url }}" alt="Card Image" class="w-full h-52 object-cover">
+                    <img src="{{ post.featured_image.url }}" alt="Card Image" class="w-full h-52 object-cover rounded-t-lg">
                     <div class="p-5 flex flex-col h-full">
 
                         <div class="flex-grow">
-                            <h2 class="text-2xl font-bold text-[#333] mb-2">{{ post.title }}</h2>
-                            <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
+                            <!-- Title with fixed height -->
+                            <h2 class="text-xl font-bold text-[#333] mb-2 line-clamp-2 h-16">
+                                {{ post.title }}
+                            </h2>
+                            <!-- Excerpt with fixed height -->
+                            {% comment %} <p class="text-sm text-gray-600 mb-4 h-25 text-justify overflow-hidden">
+                                {{ post.excerpt }}
+                            </p> {% endcomment %}
                         </div>
                         
                         <!-- Tags -->
@@ -43,9 +49,10 @@
                         </div>
                     </div>
                 </a>
-                <div class="absolute inset-0 border-2 border-transparent transition-all duration-300 hover:border-[#6B8A7A]"></div>
+                <div class="absolute inset-0 border-2 border-transparent transition-all duration-300"></div>
             </div>
             {% endfor %}
+
         </div>
 
         <!-- Pagination -->

@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 
+{% block extra_css %}
+<style>
+    /* Neumorphic Shadow */
+    .shadow-neumorphic {
+        box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.2), 
+                    -7px -7px 15px rgba(255, 255, 255, 0.7);
+    }
+
+    /* Optional: Slightly rounder edges for neumorphism */
+    .rounded-lg {
+        border-radius: 1rem; /* Adjust to your preference */
+    }
+
+    /* Optional: Background for the entire main content */
+    .bg-[#FFFBF5] {
+        background: #FFFBF5;
+    }
+
+    /* Optional: Scaling on hover for a more interactive feel */
+    .transition-transform {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    /* Optional: Slight scaling effect */
+    .transform {
+        transform: scale(1);
+    }
+
+    .hover\:scale-\[1.02\]:hover {
+        transform: scale(1.02);
+    }
+
+</style>
+{% endblock %}
+
 {% block content %}
 
 {% include 'include/featured.html' %}

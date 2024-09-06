@@ -11,11 +11,13 @@ from .forms import AddCommentForm
 
 def index(request: HttpRequest) -> HttpResponse:
     categories = Category.objects.all()
-    posts = Post.objects.filter(status=Post.STATUS.published) \
+    featured_post = Post.objects.filter(status=Post.STATUS.published).last()
+    posts = Post.objects.filter(status=Post.STATUS.published).exclude(id=featured_post.id) \
         .select_related('category', 'author').prefetch_related('tags').order_by('-created')
 
     context_data = {
         'title': 'Home',
+        'featured_post': featured_post,
         'posts': posts,
         'categories': categories
     }

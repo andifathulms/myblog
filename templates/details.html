@@ -58,6 +58,10 @@
         gap: 2rem;
     }
 
+    .post-content {
+        overflow: hidden;
+    }
+
     /* TOC Styles */
     .toc {
         display: none; /* Hide TOC by default on larger screens */
@@ -71,10 +75,14 @@
         position: sticky;
         top: 5rem; /* Adjust this value to match the height of your navbar */
         min-height: 200px; /* Set a minimum height for the TOC */
-        max-height: 60vh; /* Ensure TOC doesn't stretch too much */
+        max-height: 75vh; /* Ensure TOC doesn't stretch too much */
         overflow-y: auto; /* Enable scrolling if content exceeds max height */
         background-color: #F8F4E1;
         border-radius: 8px;
+        padding: 1rem; /* Add padding for some spacing */
+        box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+        display: flex;
+        flex-direction: column;
     }
 
     /* TOC Link Styling */
@@ -162,6 +170,15 @@
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }
+
+    figcaption {
+        text-align: center;
+        font-style: italic;
+        font-size: 0.875rem;
+        color: #6B8A7A;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
 </style>
 {% endblock %}
 
@@ -169,7 +186,7 @@
 <section class="bg-[#FFFBF5] py-16">
     <div class="container max-w-full lg:max-w-[1080px] mx-auto px-4">
         <div class="content-wrapper">
-            <div>
+            <div class="post-content">
                 <!-- TOC Below Title -->
                 <div class="toc toc-top">
                     <h2 class="text-2xl font-semibold text-[#254336] mb-4">Table of Contents</h2>

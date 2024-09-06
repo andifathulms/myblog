@@ -30,7 +30,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, max_length=255)
 
     STATUS = Choices(
         (10, 'draft', 'Draft'),
@@ -80,8 +80,7 @@ class Post(models.Model):
                 i += 1
             self.slug = slug
 
-        if not self.read_time:
-            self.read_time = len(self.content.split()) // 200  # Rough estimate: 200 words/minute
+        self.read_time = len(self.content.split()) // 200  # Rough estimate: 200 words/minute
 
         post = super().save(*args, **kwargs)
         return post
