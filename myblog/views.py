@@ -1,7 +1,9 @@
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
 
 from myblog.apps.posts.models import Post, Category
 from myblog.core.utils import get_table_of_content
@@ -14,6 +16,17 @@ def index(request: HttpRequest) -> HttpResponse:
     featured_post = Post.objects.filter(status=Post.STATUS.published).last()
     posts = Post.objects.filter(status=Post.STATUS.published).exclude(id=featured_post.id) \
         .select_related('category', 'author').prefetch_related('tags').order_by('-created')
+
+    paginator = Paginator(posts, 9)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        posts_html = render_to_string('include/post_partial.html', {'posts': posts})
+        return JsonResponse({
+            'posts_html': posts_html,
+            'has_next': posts.has_next()
+        })
 
     context_data = {
         'title': 'Home',

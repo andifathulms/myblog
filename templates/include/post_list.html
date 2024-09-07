@@ -4,66 +4,39 @@
         <!-- Latest Release Title -->
         <h2 class="text-3xl font-bold text-[#333] mb-8">Latest Release</h2>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {% for post in posts %}
-            <div class="bg-white rounded-lg shadow-neumorphic overflow-hidden relative cursor-pointer border-2 border-transparent hover:border-[#070F2B] flex flex-col h-full transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
-                <a href="{% url 'details' slug=post.slug %}" class="block relative flex-grow z-10">
-                    <!-- Category Ribbon -->
-                    <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20" style="background-color: {{ post.category.background_color }}">
-                        {{ post.category.name }}
-                    </div>
-                    <img src="{{ post.featured_image.url }}" alt="Card Image" class="w-full h-52 object-cover rounded-t-lg">
-                    <div class="p-5 flex flex-col h-full">
-
-                        <div class="flex-grow">
-                            <!-- Title with fixed height -->
-                            <h2 class="text-xl font-bold text-[#333] mb-2 line-clamp-2 h-16">
-                                {{ post.title }}
-                            </h2>
-                            <!-- Excerpt with fixed height -->
-                            {% comment %} <p class="text-sm text-gray-600 mb-4 h-25 text-justify overflow-hidden">
-                                {{ post.excerpt }}
-                            </p> {% endcomment %}
-                        </div>
-                        
-                        <!-- Tags -->
-                        <div class="flex items-center space-x-2 mb-4">
-                            <div class="flex items-center flex-wrap space-x-2">
-                                {% for tag in post.tags.all %}
-                                    <a href="#" class="bg-[#F8F4E1] text-[#333] text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 hover:bg-[#6B8A7A] hover:text-white z-10">{{ tag.name }}</a>
-                                {% endfor %}
-                                <i class="fa-solid fa-tag text-gray-500"></i>
-                            </div>
-                        </div>
-
-                        <!-- Author and Read Time -->
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex items-center space-x-3">
-                                <img src="https://via.placeholder.com/40" alt="Author Image" class="w-10 h-10 rounded-full">
-                                <div>
-                                    <p class="text-sm font-semibold text-[#333]">{{ post.author.name }}</p>
-                                    <p class="text-xs text-gray-500">{{ post.published_date }}</p>
-                                </div>
-                            </div>
-                            <p class="text-xs text-gray-500">{{ post.read_time }} minute read</p>
-                        </div>
-                    </div>
-                </a>
-                <div class="absolute inset-0 border-2 border-transparent transition-all duration-300"></div>
-            </div>
-            {% endfor %}
-
+        <div id="post-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {% include 'include/post_partial.html' %}
         </div>
 
-        <!-- Pagination -->
-        <div class="flex justify-center mt-8">
-            <nav class="inline-flex rounded-md shadow">
-                <a href="#" class="py-2 px-4 text-[#333] bg-white border border-[#dcdcdc] rounded-l-md hover:bg-[#F8F4E1]">Previous</a>
-                <a href="#" class="py-2 px-4 text-[#333] bg-white border-t border-b border-[#dcdcdc] hover:bg-[#F8F4E1]">1</a>
-                <a href="#" class="py-2 px-4 text-[#333] bg-white border-t border-b border-[#dcdcdc] hover:bg-[#F8F4E1]">2</a>
-                <a href="#" class="py-2 px-4 text-[#333] bg-white border-t border-b border-[#dcdcdc] hover:bg-[#F8F4E1]">3</a>
-                <a href="#" class="py-2 px-4 text-[#333] bg-white border border-[#dcdcdc] rounded-r-md hover:bg-[#F8F4E1]">Next</a>
-            </nav>
+        <!-- Load More Button -->
+        <div id="load-more-container" class="flex justify-center mt-8">
+            {% if posts.has_next %}
+                <button id="load-more" data-next-page="{{ posts.next_page_number }}" class="py-2 px-4 text-[#333] bg-white border border-[#dcdcdc] rounded-md hover:bg-[#F8F4E1]">Load More</button>
+            {% endif %}
         </div>
     </div>
 </main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#load-more').click(function() {
+            var nextPage = $(this).data('next-page');
+            $.ajax({
+                url: "?page=" + nextPage,
+                type: 'get',
+                beforeSend: function() {
+                    $('#load-more').text('Loading...');
+                },
+                success: function(response) {
+                    $('#post-container').append(response.posts_html);
+                    if (!response.has_next) {
+                        $('#load-more-container').remove();
+                    } else {
+                        $('#load-more').data('next-page', nextPage + 1).text('Load More');
+                    }
+                }
+            });
+        });
+    });
+</script>
