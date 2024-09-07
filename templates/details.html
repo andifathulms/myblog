@@ -259,7 +259,7 @@
                 <!-- Tags -->
                 <div class="mt-12 flex flex-wrap gap-3">
                     {% for tag in post.tags.all %}
-                        <a href="#" class="bg-[#F8F4E1] text-[#254336] text-xs font-semibold px-3 py-1 rounded-full hover:bg-[#254336] hover:text-white">
+                        <a href="{% url 'tags' tag.id %}" class="bg-[#F8F4E1] text-[#254336] text-xs font-semibold px-3 py-1 rounded-full hover:bg-[#254336] hover:text-white">
                             {{ tag.name }}
                         </a>
                     {% endfor %}

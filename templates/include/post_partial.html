@@ -23,7 +23,7 @@
             <div class="flex items-center space-x-2 mb-4">
                 <div class="flex items-center flex-wrap space-x-2">
                     {% for tag in post.tags.all %}
-                        <a href="#" class="bg-[#F8F4E1] text-[#333] text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 hover:bg-[#6B8A7A] hover:text-white z-10">{{ tag.name }}</a>
+                        <a href="{% url 'tags' tag.id %}" class="bg-[#F8F4E1] text-[#333] text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 hover:bg-[#6B8A7A] hover:text-white z-10">{{ tag.name }}</a>
                     {% endfor %}
                     <i class="fa-solid fa-tag text-gray-500"></i>
                 </div>

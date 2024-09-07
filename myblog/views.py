@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 
-from myblog.apps.posts.models import Post, Category
+from myblog.apps.posts.models import Post, Category, Tag
 from myblog.core.utils import get_table_of_content
 
 from .forms import AddCommentForm
@@ -79,5 +79,23 @@ def categories(request: HttpRequest, id: int) -> HttpResponse:
     context_data = {
         'title': f'Post with category of {category.name}',
         'posts': posts
+    }
+    return render(request, "categories.html", context_data)
+
+
+def tags(request: HttpRequest, id: int) -> HttpResponse:
+    tag = get_object_or_404(Tag, id=id)
+    posts = Post.objects.filter(tags=tag, status=Post.STATUS.published) \
+        .select_related('category', 'author').prefetch_related('tags').order_by('-created')
+
+    paginator = Paginator(posts, 9)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+
+    context_data = {
+        'title': f'Post with tags of {tag.name}',
+        'posts': posts,
+        'show_post_category': True,
+        'tag_id': id
     }
     return render(request, "categories.html", context_data)

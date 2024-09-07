@@ -29,6 +29,7 @@ urlpatterns = [
     path('backoffice/', include('myblog.backoffice.urls')), 
     path('<slug:slug>/', views.details, name="details"),
     path('category/<int:id>/', views.categories, name="categories"),
+    path('tag/<int:id>/', views.tags, name="tags"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

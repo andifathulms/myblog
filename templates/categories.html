@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <main class="mt-12 py-8 bg-[#FFFBF5]">
+    <main class="mt-20 py-8 bg-[#FFFBF5]">
         <div class="container max-w-full lg:max-w-[80rem] mx-auto">
             <h2 class="text-3xl font-bold text-[#333] mb-8">{{ title }}</h2>
             
@@ -9,10 +9,11 @@
                 {% for post in posts %}
                 <div class="bg-white rounded-lg shadow-neumorphic overflow-hidden relative cursor-pointer border-2 border-transparent hover:border-[#070F2B] flex flex-col h-full transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
                     <a href="{% url 'details' slug=post.slug %}" class="block relative flex-grow z-10">
-                        {% comment %} <!-- Category Ribbon -->
-                        <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20" style="background-color: {{ post.category.background_color }}">
-                            {{ post.category.name }}
-                        </div> {% endcomment %}
+                        {% if show_post_category %}
+                            <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20" style="background-color: {{ post.category.background_color }}">
+                                {{ post.category.name }}
+                            </div>
+                        {% endif %}
                         <img src="{{ post.featured_image.url }}" alt="Card Image" class="w-full h-52 object-cover rounded-t-lg">
                         <div class="p-5 flex flex-col h-full">
                             <div class="flex-grow">
@@ -25,7 +26,7 @@
                             <div class="flex items-center space-x-2 mb-4">
                                 <div class="flex items-center flex-wrap space-x-2">
                                     {% for tag in post.tags.all %}
-                                        <a href="#" class="bg-[#F8F4E1] text-[#333] text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 hover:bg-[#6B8A7A] hover:text-white z-10">{{ tag.name }}</a>
+                                        <a href={% if tag.id == tag_id %}"#"{% else %}"{% url 'tags' tag.id %}"{% endif %} class="bg-[#F8F4E1] text-[#333] text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 hover:bg-[#6B8A7A] hover:text-white z-10">{{ tag.name }}</a>
                                     {% endfor %}
                                     <i class="fa-solid fa-tag text-gray-500"></i>
                                 </div>
