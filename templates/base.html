@@ -57,7 +57,7 @@
 
 <body class="min-h-screen flex flex-col bg-[#F8F8F8] text-[#333]">
     <header class="fixed top-0 left-0 w-full shadow-lg bg-white z-50">
-        <nav class="container max-w-full lg:max-w-[80rem] mx-auto flex justify-between">
+        <nav class="container max-w-full lg:max-w-[80rem] mx-auto flex justify-between items-center py-4">
             <div class="w-[130px] md:w-[200px] flex items-center">
                 <a href="{% url 'index' %}" class="text-2xl font-bold text-[#333]">
                     InsightfulBytes
@@ -114,29 +114,28 @@
         {% block content %}{% endblock content %}
     </div>
 
-    <footer class="bg-white text-[#333] py-8">
-        <div class="container max-w-full lg:max-w-[1080px] mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+    <footer class="bg-[#F8F8F8] text-[#333] py-8">
+        <div class="container max-w-full lg:max-w-[1080px] mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
             <!-- Footer Navigation -->
             <div class="flex flex-col md:flex-row md:space-x-8 text-center md:text-left">
-                <a href="#" class="hover:text-[#6B8A7A]">Home</a>
-                <a href="#" class="hover:text-[#6B8A7A]">About Us</a>
-                <a href="#" class="hover:text-[#6B8A7A]">Courses</a>
-                <a href="#" class="hover:text-[#6B8A7A]">Contact</a>
+                <a href="{% url 'index' %}" class="hover:text-[#AF8F6F] transition-colors duration-300">Home</a>
+                <a href="{% url 'about_me' %}" class="hover:text-[#AF8F6F] transition-colors duration-300">About Me</a>
+                <a href="{% url 'about_me' %}#social-media" class="hover:text-[#AF8F6F] transition-colors duration-300">Contact</a>
             </div>
             
             <!-- Social Media Links -->
             <div class="flex space-x-4">
-                <a href="#" class="hover:text-[#6B8A7A]">
-                    <i class="fab fa-facebook-f"></i>
+                <a href="https://github.com/andifathulms" target="_blank" rel="noopener noreferrer" class="hover:text-[#AF8F6F] transition-colors duration-300">
+                    <i class="fab fa-github text-xl"></i>
                 </a>
-                <a href="#" class="hover:text-[#6B8A7A]">
-                    <i class="fab fa-twitter"></i>
+                {% comment %} <a href="#" class="hover:text-[#AF8F6F] transition-colors duration-300">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a> {% endcomment %}
+                <a href="https://www.linkedin.com/in/andifathulmukminin/" target="_blank" rel="noopener noreferrer" class="hover:text-[#AF8F6F] transition-colors duration-300">
+                    <i class="fab fa-linkedin-in text-xl"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/andifathulmukminin/" class="hover:text-[#6B8A7A]">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://www.instagram.com/andifathulms?igsh=bTU2b2Z5c2FuYjR1" class="hover:text-[#6B8A7A]">
-                    <i class="fab fa-instagram"></i>
+                <a href="https://www.instagram.com/andifathulms?igsh=bTU2b2Z5c2FuYjR1" target="_blank" rel="noopener noreferrer" class="hover:text-[#AF8F6F] transition-colors duration-300">
+                    <i class="fab fa-instagram text-xl"></i>
                 </a>
             </div>
     
@@ -145,7 +144,7 @@
                 <p>&copy; 2024 InsightfulBytes. All rights reserved.</p>
             </div>
         </div>
-    </footer>
+    </footer>    
 
     <script>
         function onMenuToggle(e) {
