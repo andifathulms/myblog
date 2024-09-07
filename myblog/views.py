@@ -65,3 +65,19 @@ def about_me(request: HttpRequest) -> HttpResponse:
         'title': 'About Me'
     }
     return render(request, "about_me.html", context_data)
+
+
+def categories(request: HttpRequest, id: int) -> HttpResponse:
+    category = get_object_or_404(Category, id=id)
+    posts = category.posts.filter(status=Post.STATUS.published) \
+        .select_related('category', 'author').prefetch_related('tags').order_by('-created')
+
+    paginator = Paginator(posts, 9)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+
+    context_data = {
+        'title': f'Post with category of {category.name}',
+        'posts': posts
+    }
+    return render(request, "categories.html", context_data)
