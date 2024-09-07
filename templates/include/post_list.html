@@ -9,7 +9,7 @@
             <div class="bg-white rounded-lg shadow-neumorphic overflow-hidden relative cursor-pointer border-2 border-transparent hover:border-[#070F2B] flex flex-col h-full transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
                 <a href="{% url 'details' slug=post.slug %}" class="block relative flex-grow z-10">
                     <!-- Category Ribbon -->
-                    <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20">
+                    <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20" style="background-color: {{ post.category.background_color }}">
                         {{ post.category.name }}
                     </div>
                     <img src="{{ post.featured_image.url }}" alt="Card Image" class="w-full h-52 object-cover rounded-t-lg">

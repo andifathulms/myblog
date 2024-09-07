@@ -16,6 +16,7 @@ from typing import Optional
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    background_color = models.CharField(max_length=7, default='#000')
 
     def __str__(self) -> str:
         return self.name
