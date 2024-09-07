@@ -179,6 +179,23 @@
         margin-top: 0.5rem;
         padding: 0.5rem;
     }
+
+    .toc-link {
+        text-decoration: none;
+        color: #333;
+        padding: 0.25rem 0.5rem;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .toc-link:hover {
+        background-color: #F8F4E1;
+        border-radius: 0.5rem;
+    }
+
+    .bg-metallic {
+        background: linear-gradient(145deg, #e0e0e0, #ffffff);
+    }
 </style>
 {% endblock %}
 
@@ -333,18 +350,18 @@
             </div>
 
             <!-- TOC on Right Side -->
-            <div id="toc-right" class="toc">
+            <div id="toc-right" class="toc bg-metallic shadow-neumorphic p-6 rounded-lg">
                 <h2 class="text-2xl font-semibold text-[#254336] mb-4">Table of Contents</h2>
                 <ul>
                     {% for item in table_of_content %}
                         <li style="margin-left: {{ item.level|add:'-1' }}em;">
-                            <a href="#{{ item.id }}" class="toc-link">
+                            <a href="#{{ item.id }}" class="toc-link text-[#333] hover:shadow-neumorphic-inner">
                                 {{ item.text }}
                             </a>
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
+            </div>                       
         </div>
     </div>
 </section>

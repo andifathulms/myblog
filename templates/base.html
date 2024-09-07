@@ -24,6 +24,32 @@
                 display: none;
             }
         }
+
+        /* Neumorphic Style */
+        .shadow-neumorphic {
+            box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.2), 
+                        -7px -7px 15px rgba(255, 255, 255, 0.7);
+        }
+
+        .rounded-lg {
+            border-radius: 1rem; /* Adjust to your preference */
+        }
+
+        .bg-[#FFFBF5] {
+            background: #FFFBF5;
+        }
+
+        .transition-transform {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .transform {
+            transform: scale(1);
+        }
+
+        .hover\:scale-\[1.02\]:hover {
+            transform: scale(1.02);
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
