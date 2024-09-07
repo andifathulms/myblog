@@ -73,17 +73,16 @@
 
     #toc-right {
         position: sticky;
-        top: 5rem; /* Adjust this value to match the height of your navbar */
-        min-height: 200px; /* Set a minimum height for the TOC */
-        max-height: 75vh; /* Ensure TOC doesn't stretch too much */
-        overflow-y: auto; /* Enable scrolling if content exceeds max height */
+        top: 5rem;
+        max-height: 75vh;
+        overflow-y: auto;
         background-color: #F8F4E1;
         border-radius: 8px;
-        padding: 1rem; /* Add padding for some spacing */
-        box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+        padding: 1rem;
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
-    }
+    }    
 
     /* TOC Link Styling */
     .toc ul {
@@ -161,14 +160,6 @@
         margin-bottom: 0.3rem;
         margin-top: 0.3rem;
         text-align: left;
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
     }
 
     figcaption {
@@ -398,21 +389,5 @@
             history.pushState(null, null, `#${targetId}`);
         });
     });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const carousel = document.querySelector(".overflow-x-scroll");
-        const prevButton = document.getElementById("prev");
-        const nextButton = document.getElementById("next");
-    
-        const scrollAmount = 300; // Adjust this value based on your preference
-    
-        nextButton.addEventListener("click", () => {
-            carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        });
-    
-        prevButton.addEventListener("click", () => {
-            carousel.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        });
-    });    
 </script>
 {% endblock %}
