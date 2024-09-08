@@ -32,7 +32,7 @@ PROJECT_NAME = path.basename(PROJECT_ROOT)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['52.76.199.3']
 
 
 # Application definition
