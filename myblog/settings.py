@@ -30,9 +30,10 @@ PROJECT_ROOT = path.dirname(SETTINGS_DIR)
 PROJECT_NAME = path.basename(PROJECT_ROOT)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+TEST = False
 
-ALLOWED_HOSTS = ['52.76.199.3']
+ALLOWED_HOSTS = ['52.76.199.3', '127.0.0.1' ]
 
 
 # Application definition
@@ -52,8 +53,6 @@ INSTALLED_APPS = [
     'theme',  # tailwind compatible apps
     'django_ckeditor_5',
     'storages',
-
-    'django_browser_reload'  # dev only
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -66,8 +65,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'myblog.urls'
