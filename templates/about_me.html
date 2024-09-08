@@ -106,7 +106,11 @@
                 <img src="{% static 'img/pnp-logo.png' %}" alt="Politeknik Negeri Padang" class="w-16 h-16 rounded-full mr-4">
                 <div>
                     <h3 class="text-xl font-semibold text-[#6B8A7A]">Politeknik Negeri Padang</h3>
-                    <p class="text-[#555]">August 2019 - December 2023</p>
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <p class="text-[#555]">August 2019 - December 2023</p>
+                    {% else %}
+                        <p class="text-[#555]">August 2017 - December 2021</p>
+                    {% endif %}
                     <p class="text-[#555]">Diploma IV (Bachelor's Degree) in Software Engineering (Rekayasa Perangkat Lunak)</p>
                 </div>
             </div>

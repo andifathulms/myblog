@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',  # tailwind compatible apps
     'django_ckeditor_5',
+    'storages',
 
     'django_browser_reload'  # dev only
 ]
@@ -280,6 +281,16 @@ TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# AWS Settings
+AWS_ACCESS_KEY_ID = 'xxx'
+AWS_SECRET_ACCESS_KEY = 'xxx'
+AWS_STORAGE_BUCKET_NAME = 'bucket-name'
+AWS_REGION = 'ap-southeast-1'
+AWS_LOCATION = 'media'
+AWS_S3_CUSTOM_DOMAIN = ""
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+THUMBNAILS['STORAGE']['BACKEND'] = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
