@@ -1,3 +1,5 @@
+from redis import Redis
+
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -5,10 +7,13 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 
-from myblog.apps.posts.models import Post, Category, Tag
-from myblog.core.utils import get_table_of_content
+from myblog.apps.posts.models import Post, Category, Tag, PostLog
+from myblog.core.utils import get_table_of_content, get_post_view_threshold
 
 from .forms import AddCommentForm
+
+
+redis_client = Redis()
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -43,6 +48,20 @@ def details(request: HttpRequest, slug) -> HttpResponse:
     table_of_content, updated_content = get_table_of_content(post.content)
     post.content = updated_content
 
+    redis_key = f'post:{post.id}:views'
+    session_key = f'viewed_post_{post.id}'
+    view_treshold = get_post_view_threshold(post.views)
+
+    if not request.session.get(session_key, False):
+        new_count = redis_client.incr(redis_key)
+        request.session[session_key] = True
+
+        if new_count >= view_treshold:
+            post.views += new_count
+            post.save(update_fields=['views'])
+
+            redis_client.delete(redis_key)
+
     form = AddCommentForm(request.POST or None)
     if form.is_valid():
         form.save(post)
@@ -51,6 +70,7 @@ def details(request: HttpRequest, slug) -> HttpResponse:
 
     context_data = {
         'post': post,
+        'edit_log': post.logs.filter(action=PostLog.ACTION.edited).last(),
         'related_posts': post.get_related_posts(),
         'form': form,
         'title': post.title,

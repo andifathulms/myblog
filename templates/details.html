@@ -192,7 +192,7 @@
 
 {% block content %}
 <section class="bg-[#FFFBF5] py-16 mt-12">
-    <div class="container max-w-full lg:max-w-[1080px] mx-auto px-4">
+    <div class="container max-w-full lg:max-w-[80rem] mx-auto px-4">
         <div class="content-wrapper">
             <div class="post-content">
                 <!-- TOC Below Title -->
@@ -219,6 +219,9 @@
                         <div>
                             <p class="text-lg font-semibold text-[#254336]">{{ post.author.name }}</p>
                             <p class="text-sm">Published {{ post.published_date|date:"H:i D, F Y" }}</p>
+                            {% if edit_log %}
+                                <p class="text-sm"><i>Last Updated {{ edit_log.created|date:"H:i D, F Y" }}</i></p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="text-sm text-gray-600 flex items-center space-x-2">

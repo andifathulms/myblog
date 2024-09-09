@@ -50,3 +50,16 @@ def get_table_of_content(html_content):
         })
 
     return table_of_content, str(soup)
+
+
+def get_post_view_threshold(views: int) -> int:
+    if views <= 5:
+        return 1
+    elif views <= 20:
+        return 3
+    elif views <= 50:
+        return 5
+    elif views <= 100:
+        return 7
+    else:
+        return 10
