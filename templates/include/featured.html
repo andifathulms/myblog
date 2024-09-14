@@ -5,7 +5,7 @@
 
         <!-- Featured Post Preview -->
         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <img src="{{ featured_post.featured_image.url }}" alt="Featured Post" class="w-full h-auto md:h-[400px] object-cover rounded-lg">
+            <img src="{{ featured_post.featured_image.url }}" alt="Featured Post" class="w-full h-auto md:h-[400px] object-contain rounded-lg">
             <div class="text-left">
                 <h2 class="text-3xl font-bold text-[#333] mb-4">{{ featured_post.title }}</h2>
                 <p class="text-[#666] mb-6 text-justify">{{ featured_post.excerpt }}</p>

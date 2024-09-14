@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Count
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -103,10 +103,22 @@ class Post(models.Model):
         self.logs.create(action=PostLog.ACTION.published, created_by=created_by, notes=notes)
 
     def get_related_posts(self) -> QuerySet:
+        related_posts = Post.objects.exclude(id=self.id)
+        tags = self.tags.all()
+        if tags.exists():
+            related_posts = related_posts.filter(tags__in=tags, status=self.STATUS.published) \
+                .annotate(same_tags=Count('tags')).order_by('-same_tags', '-created')
+
         category = self.category
-        related_posts = Post.objects.filter(category=category, status=self.STATUS.published) \
-            .exclude(id=self.id).order_by('-created')
-        return related_posts
+        if category:
+            related_posts = related_posts | Post.objects.filter(category=category, status=self.STATUS.published) \
+                .exclude(id=self.id).order_by('-created')
+
+        if related_posts.count() < 3:
+            latest_posts = Post.objects.exclude(id=self.id).order_by('-created')
+            related_posts = related_posts | latest_posts
+
+        return related_posts.distinct()[:3]
 
 
 class Comment(models.Model):

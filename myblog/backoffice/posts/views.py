@@ -1,10 +1,11 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpRequest, HttpResponse
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.urls import reverse
+from django.utils import timezone
 
-from myblog.apps.posts.models import Post
+from myblog.apps.posts.models import Post, PostLog
 from myblog.core.decorators import  author_required
 
 from .forms import FilterForm, PostCreationForm
@@ -53,3 +54,29 @@ def add(request: HttpRequest) -> HttpResponse:
         'form': form
     }
     return render(request, "backoffice/posts/add.html", context_data)
+
+
+@author_required
+def draft(request: HttpRequest, id: int) -> HttpResponse:
+    post = get_object_or_404(Post, id=id)
+    post.status = Post.STATUS.draft
+    post.save(update_fields=['status'])
+    post.logs.create(action=PostLog.ACTION.drafted, created_by=request.user)
+
+    return redirect(reverse("backoffice:posts:index"))
+
+
+@author_required
+def publish(request: HttpRequest, id: int) -> HttpResponse:
+    post = get_object_or_404(Post, id=id)
+    post.status = Post.STATUS.published
+    update_fields = ['status']
+
+    if not post.published_date:
+        post.published_date = timezone.now()
+        update_fields.append('published_date')
+
+    post.save(update_fields=update_fields)
+    post.logs.create(action=PostLog.ACTION.published, created_by=request.user)
+
+    return redirect(reverse("backoffice:posts:index"))

@@ -3,6 +3,23 @@
 <head>
     <title>{{ title }}</title>
 
+    {% if post %}
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="{{ post.meta_description }}">
+        <meta name="keywords" content="{{ post.meta_keywords }}">
+        
+        <!-- Open Graph Meta Tags for Social Media -->
+        <meta property="og:title" content="{{ post.og_title|default:post.title }}">
+        <meta property="og:description" content="{{ post.og_description|default:post.meta_description }}">
+        {% if post.og_image %}
+            <meta property="og:image" content="{{ post.og_image.url }}">
+        {% else %}
+            <meta property="og-image" content="{{ post.featured_image.url }}">
+        {% endif %}
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    {% endif %}
+
     {% tailwind_css %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
