@@ -282,7 +282,7 @@
                             <a href="{% url 'details' slug=related_post.slug %}" class="block">
                                 <!-- Fixed Height Image -->
                                 <div class="h-36 w-full mb-4">
-                                    <img src="{{ related_post.featured_image.url }}" alt="{{ related_post.title }}" class="w-full h-full object-cover rounded-lg">
+                                    <img src="{{ related_post.featured_image.url }}" alt="{{ related_post.title }}" class="w-full h-full object-contain rounded-lg">
                                 </div>
                                 <!-- Title and Read Time -->
                                 <div>

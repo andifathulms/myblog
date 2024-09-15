@@ -115,7 +115,7 @@ class Post(models.Model):
                 .exclude(id=self.id).order_by('-created')
 
         if related_posts.count() < 3:
-            latest_posts = Post.objects.exclude(id=self.id).order_by('-created')
+            latest_posts = Post.objects.filter(status=self.STATUS.published).exclude(id=self.id).order_by('-created')
             related_posts = related_posts | latest_posts
 
         return related_posts.distinct()[:3]
