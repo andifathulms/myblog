@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
+from django.db.models import Count, Sum, Avg
 
 from myblog.apps.posts.models import Post, Category, Tag, PostLog
 from myblog.core.utils import get_table_of_content, get_post_view_threshold
@@ -119,3 +120,20 @@ def tags(request: HttpRequest, id: int) -> HttpResponse:
         'tag_id': id
     }
     return render(request, "categories.html", context_data)
+
+
+def analytics(request: HttpRequest) -> HttpResponse:
+    categories = Category.objects.annotate(
+        total_posts=Count('posts'), total_views=Sum('posts__views'),
+        avg_read_time=Avg('posts__read_time')).order_by('-total_posts')
+
+    tags = Tag.objects.annotate(
+        total_posts=Count('post'), total_views=Sum('post__views'),
+        avg_read_time=Avg('post__read_time')).order_by('-total_posts')
+
+    context_data = {
+        'title': 'InsightfulBytes Analytics',
+        'categories': categories,
+        'tags': tags
+    }
+    return render(request, "analytics.html", context_data)
