@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
-from django.db.models import Count, Sum, Avg
+from django.db.models import Count, Sum, Avg, Q
 
 from myblog.apps.posts.models import Post, Category, Tag, PostLog
 from myblog.core.utils import get_table_of_content, get_post_view_threshold
@@ -124,12 +124,16 @@ def tags(request: HttpRequest, id: int) -> HttpResponse:
 
 def analytics(request: HttpRequest) -> HttpResponse:
     categories = Category.objects.annotate(
-        total_posts=Count('posts'), total_views=Sum('posts__views'),
-        avg_read_time=Avg('posts__read_time')).order_by('-total_posts')
+        total_posts=Count('posts', filter=Q(posts__status=Post.STATUS.published)),
+        total_views=Sum('posts__views', filter=Q(posts__status=Post.STATUS.published)),
+        avg_read_time=Avg('posts__read_time', filter=Q(posts__status=Post.STATUS.published))
+    ).filter(total_posts__gt=0).order_by('-total_posts')
 
     tags = Tag.objects.annotate(
-        total_posts=Count('post'), total_views=Sum('post__views'),
-        avg_read_time=Avg('post__read_time')).order_by('-total_posts')
+        total_posts=Count('post', filter=Q(post__status=Post.STATUS.published)),
+        total_views=Sum('post__views', filter=Q(post__status=Post.STATUS.published)),
+        avg_read_time=Avg('post__read_time', filter=Q(post__status=Post.STATUS.published))
+    ).filter(total_posts__gt=0).order_by('-total_posts')
 
     context_data = {
         'title': 'InsightfulBytes Analytics',
