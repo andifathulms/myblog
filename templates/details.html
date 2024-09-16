@@ -192,6 +192,37 @@
     .bg-metallic {
         background: linear-gradient(145deg, #e0e0e0, #ffffff);
     }
+
+    .toast {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        padding: 12px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 16px;
+    }
+    
+    .toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+    }
+    
+    @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
 </style>
 {% endblock %}
 
@@ -259,9 +290,11 @@
                     <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="icon-button">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <button onclick="navigator.clipboard.writeText('{{ request.build_absolute_uri }}')" class="icon-button">
+                    <button onclick="copyToClipboard()" class="icon-button">
                         <i class="fas fa-link"></i>
                     </button>
+                    
+                    <div id="toast" class="toast">URL copied to clipboard!</div>
                 </div>
 
                 <!-- Tags -->
@@ -397,5 +430,23 @@
             history.pushState(null, null, `#${targetId}`);
         });
     });
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText('{{ request.build_absolute_uri }}')
+        .then(() => {
+            showToast();
+        })
+        .catch(err => {
+            console.error('Error copying text: ', err);
+        });
+    }
+    
+    function showToast() {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000); // Show the toast for 3 seconds
+    }
 </script>
 {% endblock %}
