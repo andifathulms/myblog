@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
     path('about-me/', views.about_me, name="about_me"),
+    path('analytics/', views.analytics, name="analytics"),
     path('backoffice/', include('myblog.backoffice.urls')), 
     path('<slug:slug>/', views.details, name="details"),
     path('category/<int:id>/', views.categories, name="categories"),

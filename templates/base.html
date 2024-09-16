@@ -85,9 +85,17 @@
                 <div class="navLinks duration-500 absolute md:static md:w-auto w-full md:h-auto h-[85vh] bg-white flex md:items-center gap-[1.5vw] top-[100%] left-[-100%] px-5 md:py-0 py-5">
                     <ul class="flex md:flex-row flex-col md:items-center md:gap-[1vw]">
                         {% for category in active_categories %}
-                            <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto"><a href="{% url 'categories' category.id %}">{{ category }}</a></li>
+                            <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto">
+                                <a href="{% url 'categories' category.id %}">{{ category }}</a>
+                            </li>
                         {% endfor %}
-                        <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto"><a href="{% url 'about_me' %}">About me</a></li>
+                        <li class="hidden md:inline-block text-[#999] px-2">|</li>
+                        <li class="relative px-4 py-5 hover:bg-[#FFD700] text-[#333] rounded-lg w-full md:w-auto font-semibold">
+                            <a href="{% url 'analytics' %}">📊 Analytics</a>
+                        </li>
+                        <li class="relative px-4 py-5 hover:bg-[#ADD8E6] text-[#333] rounded-lg w-full md:w-auto font-semibold">
+                            <a href="{% url 'about_me' %}">👤 About me</a>
+                        </li>
                         {% if user.is_authenticated and user.is_superuser %}
                             <li class="relative px-4 py-5 hover:bg-[#F1F1F1] text-[#333] rounded-lg w-full md:w-auto">
                                 <a href="{% url 'backoffice:index' %}">Backoffice</a>
