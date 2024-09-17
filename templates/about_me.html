@@ -5,21 +5,24 @@
 <section class="pt-24 pb-12 bg-[#F8F8F8] mt-12">
     <div class="container max-w-full lg:max-w-[80rem] mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center">
+            <!-- Text Section -->
             <div class="md:w-3/4 text-center md:text-left md:pr-8">
-                <h1 class="text-4xl font-bold text-[#333] mb-6">Hello, I'm Andi Fathul</h1>
-                <p class="text-lg text-[#555] text-justify mb-6">
+                <h1 class="text-3xl sm:text-4xl font-bold text-[#333] mb-6">Hello, I'm Andi Fathul</h1>
+                <p class="text-base sm:text-lg text-[#555] text-justify mb-4 sm:mb-6">
                     I'm Fathul, a software developer with a deep interest in programming, data science, and machine learning.
                     With experience in Python, Django, Android development, and more, I enjoy creating solutions that make a difference.
                     I have been involved in various projects, ranging from web development to mobile applications, and I continuously seek to improve my skills and stay updated with the latest technologies.
                 </p>
-                <p class="text-lg text-[#555] text-justify mb-6">
+                <p class="text-base sm:text-lg text-[#555] text-justify mb-4 sm:mb-6">
                     When I'm not coding, I'm a history buff, a sports enthusiast, and a tech explorer.
                     My passion for learning and continuous improvement drives me to push the boundaries of what's possible in the world of software development.
                 </p>
-                <a href="#contact" class="mt-6 inline-block bg-[#6B8A7A] text-white py-3 px-6 rounded-full hover:bg-[#AF8F6F]">Contact Me</a>
+                <!-- Adjust button for small screens -->
+                <a href="#contact" class="mt-6 inline-block bg-[#6B8A7A] text-white py-3 px-4 sm:px-6 rounded-full hover:bg-[#AF8F6F]">Contact Me</a>
             </div>
+            <!-- Image Section -->
             <div class="md:w-1/4 mt-8 md:mt-0 flex justify-center md:justify-end">
-                <img src="{% static 'img/profile-logo-cropped.jpeg' %}" alt="Fathul's Photo" class="rounded-full shadow-lg">
+                <img src="{% static 'img/profile-logo-cropped.jpeg' %}" alt="Fathul's Photo" class="w-36 sm:w-48 md:w-full rounded-full shadow-lg">
             </div>
         </div>
     </div>
@@ -41,86 +44,90 @@
     </div>
 </section> {% endcomment %}
 
-<section id="experience" class="py-12 bg-white">
+<section id="experience" class="py-10 bg-white">
     <div class="container mx-auto max-w-full lg:max-w-[80rem] px-4">
-        <h2 class="text-3xl font-bold text-[#333] mb-8">Experience</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#333] mb-6 sm:mb-8">Experience</h2>
         <div class="space-y-4">
-            <div class="flex items-center bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
-                <img src="{% static 'img/kubikasi-logo.jpeg' %}" alt="PT Houzcall Teknologi Indonesia Logo" class="w-16 h-16 rounded-full mr-4">
-                <div>
-                    <h3 class="text-xl font-semibold text-[#333]">Software Developer</h3>
-                    <p class="text-lg font-medium text-[#6B8A7A]">Kubikasi</p>
-                    <p class="text-[#555]">Dec 2022 - Present</p>
-                    <p class="text-[#555]">South Jakarta, Jakarta, Indonesia | Hybrid</p>
-                    <p class="text-[#191C27]">Develop both the API services, backend and frontend of web applications using Django, ensuring seamless functionality and user experience.</p>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center bg-[#F8F8F8] p-4 sm:p-6 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
+                <img src="{% static 'img/kubikasi-logo.jpeg' %}" alt="Kubikasi Logo" class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                <div class="text-left">
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#333]">Software Developer</h3>
+                    <p class="text-base sm:text-lg font-medium text-[#6B8A7A]">Kubikasi</p>
+                    <p class="text-sm sm:text-base text-[#555]">Dec 2022 - Present</p>
+                    <p class="text-sm sm:text-base text-[#555]">South Jakarta, Jakarta, Indonesia | Hybrid</p>
+                    <p class="text-sm sm:text-base text-[#191C27]">Develop both the API services, backend, and frontend of web applications using Django, ensuring seamless functionality and user experience.</p>
                 </div>
             </div>
-            <div class="flex items-center bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
-                <img src="{% static 'img/houzcall-logo.jpeg' %}" alt="PT Houzcall Teknologi Indonesia Logo" class="w-16 h-16 rounded-full mr-4">
-                <div>
-                    <h3 class="text-xl font-semibold text-[#333]">Software Developer</h3>
-                    <p class="text-lg font-medium text-[#6B8A7A]">Houzcall Teknologi Indonesia</p>
-                    <p class="text-[#555]">Dec 2022 - Present</p>
-                    <p class="text-[#555]">South Jakarta, Jakarta, Indonesia | Hybrid</p>
-                    <p class="text-[#191C27]">Develop both the API service, backend and frontend of web applications using Django, ensuring seamless functionality and user experience.</p>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center bg-[#F8F8F8] p-4 sm:p-6 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
+                <img src="{% static 'img/houzcall-logo.jpeg' %}" alt="Houzcall Teknologi Indonesia Logo" class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                <div class="text-left">
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#333]">Software Developer</h3>
+                    <p class="text-base sm:text-lg font-medium text-[#6B8A7A]">Houzcall Teknologi Indonesia</p>
+                    <p class="text-sm sm:text-base text-[#555]">Dec 2022 - Present</p>
+                    <p class="text-sm sm:text-base text-[#555]">South Jakarta, Jakarta, Indonesia | Hybrid</p>
+                    <p class="text-sm sm:text-base text-[#191C27]">Develop both the API services, backend, and frontend of web applications using Django, ensuring seamless functionality and user experience.</p>
                 </div>
             </div>
-            <div class="flex items-center bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
-                <img src="{% static 'img/platon-logo.jpeg' %}" alt="Platon Logo" class="w-16 h-16 rounded-full mr-4">
-                <div>
-                    <h3 class="text-xl font-semibold text-[#333]">Python Developer Freelance</h3>
-                    <p class="text-lg font-medium text-[#6B8A7A]">Platon</p>
-                    <p class="text-[#555]">Feb 2023 - Feb 2024</p>
-                    <p class="text-[#555]">Yogyakarta, DI Yogyakarta, Indonesia | Remote</p>
-                    <p class="text-[#191C27]">Involved in various freelance projects focusing on Python and data science.</p>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center bg-[#F8F8F8] p-4 sm:p-6 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
+                <img src="{% static 'img/platon-logo.jpeg' %}" alt="Platon Logo" class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                <div class="text-left">
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#333]">Python Developer Freelance</h3>
+                    <p class="text-base sm:text-lg font-medium text-[#6B8A7A]">Platon</p>
+                    <p class="text-sm sm:text-base text-[#555]">Feb 2023 - Feb 2024</p>
+                    <p class="text-sm sm:text-base text-[#555]">Yogyakarta, DI Yogyakarta, Indonesia | Remote</p>
+                    <p class="text-sm sm:text-base text-[#191C27]">Involved in various freelance projects focusing on Python and data science.</p>
                 </div>
             </div>
-            <div class="flex items-center bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
-                <img src="{% static 'img/pln-logo.jpeg' %}" alt="Platon Logo" class="w-16 h-16 rounded-full mr-4">
-                <div>
-                    <h3 class="text-xl font-semibold text-[#333]">Software Developer Intern</h3>
-                    <p class="text-lg font-medium text-[#6B8A7A]">PLN UIP Sulawesi</p>
-                    <p class="text-[#555]">Jun 2022 - Nov 2022</p>
-                    <p class="text-[#555]">Makassar, South Sulawesi, Indonesia | Onsite</p>
-                    <p class="text-[#191C27]">Developed a web-based application for monitoring and evaluating financial processes within the Budget and Finance Division at PT PLN UIP Sulawesi. Utilized Django, Bootstrap 5, and HTMX to construct the platform, enhancing efficiency and facilitating streamlined operations for the division.</p>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center bg-[#F8F8F8] p-4 sm:p-6 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all">
+                <img src="{% static 'img/pln-logo.jpeg' %}" alt="PLN Logo" class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                <div class="text-left">
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#333]">Software Developer Intern</h3>
+                    <p class="text-base sm:text-lg font-medium text-[#6B8A7A]">PLN UIP Sulawesi</p>
+                    <p class="text-sm sm:text-base text-[#555]">Jun 2022 - Nov 2022</p>
+                    <p class="text-sm sm:text-base text-[#555]">Makassar, South Sulawesi, Indonesia | Onsite</p>
+                    <p class="text-sm sm:text-base text-[#191C27]">Developed a web-based application for monitoring and evaluating financial processes within the Budget and Finance Division at PT PLN UIP Sulawesi.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 
 <section id="education" class="py-12 bg-white">
     <div class="container mx-auto max-w-full lg:max-w-[80rem] px-4">
-        <h2 class="text-3xl font-bold text-[#333] mb-8">Education</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#333] mb-6 sm:mb-8">Education</h2>
         <div class="space-y-4">
-            <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center">
-                <img src="{% static 'img/unpam-logo.png' %}" alt="Universitas Pamulang" class="w-16 h-16 rounded-full mr-4">
-                <div>
+            <!-- Universitas Pamulang -->
+            <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center flex-wrap">
+                <img src="{% static 'img/unpam-logo.png' %}" alt="Universitas Pamulang" class="w-16 h-16 rounded-full mr-4 mb-4 md:mb-0">
+                <div class="flex-1">
                     <h3 class="text-xl font-semibold text-[#6B8A7A]">Universitas Pamulang</h3>
-                    <p class="text-[#555]">September 2024 - Present</p>
-                    <p class="text-[#555]">S2 (Master's Degree) in Information Technology</p>
+                    <p class="text-sm md:text-base text-[#555]">September 2024 - Present</p>
+                    <p class="text-sm md:text-base text-[#555]">S2 (Master's Degree) in Information Technology</p>
                 </div>
             </div>
-            <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center">
-                <img src="{% static 'img/pnp-logo.png' %}" alt="Politeknik Negeri Padang" class="w-16 h-16 rounded-full mr-4">
-                <div>
+            <!-- Politeknik Negeri Padang -->
+            <div class="bg-[#F8F8F8] p-4 rounded-lg shadow-md hover:bg-[#E0E0E0] hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center flex-wrap">
+                <img src="{% static 'img/pnp-logo.png' %}" alt="Politeknik Negeri Padang" class="w-16 h-16 rounded-full mr-4 mb-4 md:mb-0">
+                <div class="flex-1">
                     <h3 class="text-xl font-semibold text-[#6B8A7A]">Politeknik Negeri Padang</h3>
                     {% if user.is_authenticated and user.is_superuser %}
-                        <p class="text-[#555]">August 2019 - December 2023</p>
+                        <p class="text-sm md:text-base text-[#555]">August 2019 - December 2023</p>
                     {% else %}
-                        <p class="text-[#555]">August 2017 - December 2021</p>
+                        <p class="text-sm md:text-base text-[#555]">August 2017 - December 2021</p>
                     {% endif %}
-                    <p class="text-[#555]">Diploma IV (Bachelor's Degree) in Software Engineering (Rekayasa Perangkat Lunak)</p>
+                    <p class="text-sm md:text-base text-[#555]">Diploma IV (Bachelor's Degree) in Software Engineering (Rekayasa Perangkat Lunak)</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+
 <section id="social-media" class="py-12 bg-[#F8F8F8]">
     <div class="container mx-auto max-w-full lg:max-w-[80rem] px-4">
-        <h2 class="text-3xl font-bold text-[#333] mb-8">Connect with Me</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#333] mb-6 sm:mb-8">Connect with Me</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <a href="https://github.com/andifathulms" target="_blank" rel="noopener noreferrer"
                 class="flex items-center bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:bg-[#333] hover:text-white">
@@ -149,7 +156,7 @@
 
 <section id="contact" class="py-12 bg-[#F8F8F8]">
     <div class="container mx-auto max-w-full lg:max-w-[80rem] px-4">
-        <h2 class="text-3xl font-bold text-[#333] mb-8">Contact Me</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#333] mb-6 sm:mb-8">Contact Me</h2>
         <form action="#" method="POST" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input type="text" name="name" placeholder="Your Name" class="form-input w-full py-3 px-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6B8A7A]">
