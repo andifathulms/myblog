@@ -127,13 +127,13 @@ def analytics(request: HttpRequest) -> HttpResponse:
         total_posts=Count('posts', filter=Q(posts__status=Post.STATUS.published)),
         total_views=Sum('posts__views', filter=Q(posts__status=Post.STATUS.published)),
         avg_read_time=Avg('posts__read_time', filter=Q(posts__status=Post.STATUS.published))
-    ).filter(total_posts__gt=0).order_by('-total_posts')
+    ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
     tags = Tag.objects.annotate(
         total_posts=Count('post', filter=Q(post__status=Post.STATUS.published)),
         total_views=Sum('post__views', filter=Q(post__status=Post.STATUS.published)),
         avg_read_time=Avg('post__read_time', filter=Q(post__status=Post.STATUS.published))
-    ).filter(total_posts__gt=0).order_by('-total_posts')
+    ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
     context_data = {
         'title': 'InsightfulBytes Analytics',

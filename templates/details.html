@@ -227,7 +227,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="bg-[#FFFBF5] py-16 mt-12">
+<section class="bg-[#FFFBF5] py-16 mt-4 sm:mt-16">
     <div class="container max-w-full lg:max-w-[80rem] mx-auto px-4">
         <div class="content-wrapper">
             <div class="post-content">
@@ -250,26 +250,27 @@
 
                 <!-- Author Info and Read Time -->
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center text-gray-600 mb-8">
-                    <div class="flex items-center space-x-3">
-                        <img src="https://via.placeholder.com/50" alt="Author Image" class="w-12 h-12 rounded-full">
-                        <div>
-                            <p class="text-lg font-semibold text-[#254336]">{{ post.author.name }}</p>
-                            <p class="text-sm">Published {{ post.published_date|date:"H:i D, F Y" }}</p>
-                            {% if edit_log %}
-                                <p class="text-sm"><i>Last Updated {{ edit_log.created|date:"H:i D, F Y" }}</i></p>
-                            {% endif %}
+                    <!-- Author Info -->
+                    <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://via.placeholder.com/50" alt="Author Image" class="w-12 h-12 rounded-full">
+                            <div class="flex flex-col">
+                                <p class="text-lg font-semibold text-[#254336]">{{ post.author.name }}</p>
+                                <p class="text-sm">Published {{ post.published_date|date:"H:i D, F Y" }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-sm text-gray-600 flex items-center space-x-2">
-                        <i class="fas fa-clock"></i>
-                        <span>{{ post.read_time }} min read</span>
-                        <i class="fas fa-eye mr-2"></i>
-                        <span>{{ post.views }} views</span>
+                        <!-- Read Time and Views -->
+                        <div class="text-sm text-gray-600 flex items-center space-x-2 mt-2 md:mt-0">
+                            <i class="fas fa-clock"></i>
+                            <span>{{ post.read_time }} min read</span>
+                            <i class="fas fa-eye mr-2"></i>
+                            <span>{{ post.views }} views</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Featured Image -->
-                <div class="mb-8">
+                <div class="mb-6 sm:mb-8">
                     <img src="{{ post.featured_image.url }}" alt="Post Image" class="w-full h-auto rounded-lg shadow-md">
                 </div>
 
@@ -279,7 +280,7 @@
                 </div>
 
                 <!-- Share Buttons -->
-                <div class="mt-8 flex items-center gap-4">
+                <div class="mt-2 flex items-center gap-4">
                     <span class="text-[#6B8A7A] text-lg">Share:</span>
                     <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}" target="_blank" class="icon-button">
                         <i class="fab fa-twitter"></i>
@@ -309,13 +310,15 @@
                 <!-- More Like This Section -->
                 <div class="mt-12">
                     <h3 class="text-2xl font-semibold text-[#254336] mb-6">More Like This</h3>
-                    <div class="flex justify-between gap-1">
+                    
+                    <!-- Responsive Grid Layout -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                         {% for related_post in related_posts|slice:":3" %}
-                        <div class="flex flex-col bg-[#FFFBF5] rounded-lg p-4 shadow-neumorphic max-w-xs w-full">
+                        <div class="bg-[#FFFBF5] rounded-lg p-4 shadow-neumorphic">
                             <a href="{% url 'details' slug=related_post.slug %}" class="block">
                                 <!-- Fixed Height Image -->
                                 <div class="h-36 w-full mb-4">
-                                    <img src="{{ related_post.featured_image.url }}" alt="{{ related_post.title }}" class="w-full h-full object-contain rounded-lg">
+                                    <img src="{{ related_post.featured_image.url }}" alt="{{ related_post.title }}" class="w-full h-full object-cover rounded-lg">
                                 </div>
                                 <!-- Title and Read Time -->
                                 <div>
@@ -326,7 +329,8 @@
                         </div>
                         {% endfor %}
                     </div>
-                </div>                                            
+                </div>
+                                                            
 
                 <!-- Comments Section -->
                 <div class="mt-12">

@@ -1,14 +1,11 @@
-<section class="text-center py-24 pb-8">
-    <div class="container max-w-full lg:max-w-[80rem] mx-auto">
-        {% comment %} <h1 class="text-4xl md:text-5xl font-bold text-[#333] mb-4">Insightful Bytes</h1>
-        <p class="text-lg md:text-xl text-[#666]">Explore the latest insights and trends in programming, data science, machine learning, and more.</p> {% endcomment %}
-
+<section class="text-center py-16 sm:py-20 pb-6 sm:pb-8">
+    <div class="container max-w-full lg:max-w-[80rem] mx-auto px-4 sm:px-6 md:px-8">
         <!-- Featured Post Preview -->
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <img src="{{ featured_post.featured_image.url }}" alt="Featured Post" class="w-full h-auto md:h-[400px] object-contain rounded-lg">
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <img src="{{ featured_post.featured_image.url }}" alt="Featured Post" class="w-full h-auto max-h-[300px] md:max-h-[400px] object-cover rounded-lg">
             <div class="text-left">
-                <h2 class="text-3xl font-bold text-[#333] mb-4">{{ featured_post.title }}</h2>
-                <p class="text-[#666] mb-6 text-justify">{{ featured_post.excerpt }}</p>
+                <h2 class="text-2xl sm:text-3xl font-bold text-[#333] mb-3">{{ featured_post.title }}</h2>
+                <p class="text-[#666] mb-5 sm:mb-6 text-sm sm:text-base text-justify">{{ featured_post.excerpt }}</p>
                 <a href="{% url 'details' slug=featured_post.slug %}" class="inline-block text-[#333] font-semibold hover:underline">Read More</a>
             </div>
         </div>
