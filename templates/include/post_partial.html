@@ -1,6 +1,6 @@
 {% for post in posts %}
 <div class="bg-white rounded-lg shadow-neumorphic overflow-hidden relative cursor-pointer border-2 border-transparent hover:border-[#070F2B] flex flex-col h-full transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
-    <a href="{% url 'details' slug=post.slug %}" class="block relative flex-grow z-10">
+    <a href="{% url 'details' slug=post.slug %}" class="block relative z-10">
         <!-- Category Ribbon -->
         <div class="absolute bottom-0 left-0 bg-[#254336] text-white text-xs font-semibold px-3 py-1 rounded-tr-lg z-20" style="background-color: {{ post.category.background_color }}">
             {{ post.category.name }}
@@ -20,19 +20,19 @@
             </div>
             
             <!-- Tags -->
-            <div class="flex items-center space-x-2 mb-4">
-                <div class="flex items-center flex-wrap space-x-2">
+            <div class="flex items-center space-x-2 mb-4" >
+                <div class="flex items-center flex-wrap space-x-2" style="margin-left: 0;">
+                    <i class="fa-solid fa-tag text-gray-500"></i>
                     {% for tag in post.tags.all %}
                         <a href="{% url 'tags' tag.id %}" class="bg-[#F8F4E1] text-[#333] text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 hover:bg-[#6B8A7A] hover:text-white z-10">{{ tag.name }}</a>
                     {% endfor %}
-                    <i class="fa-solid fa-tag text-gray-500"></i>
                 </div>
             </div>
 
             <!-- Author and Read Time -->
             <div class="flex justify-between items-center mt-4">
                 <div class="flex items-center space-x-3">
-                    <img src="https://via.placeholder.com/40" alt="Author Image" class="w-10 h-10 rounded-full">
+                    {% comment %} <img src="https://via.placeholder.com/40" alt="Author Image" class="w-10 h-10 rounded-full"> {% endcomment %}
                     <div>
                         <p class="text-sm font-semibold text-[#333]">{{ post.author.name }}</p>
                         <p class="text-xs text-gray-500">{{ post.published_date }}</p>
