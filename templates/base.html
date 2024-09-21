@@ -3,10 +3,14 @@
 <head>
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="InsightfulBytes">
+
     {% if post %}
         <!-- SEO Meta Tags -->
         <meta name="description" content="{{ post.meta_description }}">
         <meta name="keywords" content="{{ post.meta_keywords }}">
+        <meta name="author" content="{{ post.author.name }}">
         
         <!-- Open Graph Meta Tags for Social Media -->
         <meta property="og:title" content="{{ post.og_title|default:post.title }}">
