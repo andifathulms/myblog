@@ -18,10 +18,10 @@ redis_client = Redis()
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    categories = Category.objects.all()
-    featured_post = Post.objects.filter(status=Post.STATUS.published).last()
-    posts = Post.objects.filter(status=Post.STATUS.published).exclude(id=featured_post.id) \
-        .select_related('category', 'author').prefetch_related('tags').order_by('-created')
+    featured_post = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular).last()
+    posts = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular) \
+        .exclude(id=featured_post.id).select_related('category', 'author') \
+        .prefetch_related('tags').order_by('-created')
 
     paginator = Paginator(posts, 9)
     page_number = request.GET.get('page')
@@ -37,15 +37,14 @@ def index(request: HttpRequest) -> HttpResponse:
     context_data = {
         'title': 'Home',
         'featured_post': featured_post,
-        'posts': posts,
-        'categories': categories
+        'posts': posts
     }
     return render(request, "index.html", context_data)
 
 
 def details(request: HttpRequest, slug) -> HttpResponse:
     post = get_object_or_404(Post, slug=slug)
-    related_posts = Post.objects.filter(status=Post.STATUS.published).exclude(id=post.id)
+    related_posts = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular).exclude(id=post.id)
     table_of_content, updated_content = get_table_of_content(post.content)
     post.content = updated_content
 
@@ -90,7 +89,7 @@ def about_me(request: HttpRequest) -> HttpResponse:
 
 def categories(request: HttpRequest, id: int) -> HttpResponse:
     category = get_object_or_404(Category, id=id)
-    posts = category.posts.filter(status=Post.STATUS.published) \
+    posts = category.posts.filter(status=Post.STATUS.published, type=Post.TYPE.regular) \
         .select_related('category', 'author').prefetch_related('tags').order_by('-created')
 
     paginator = Paginator(posts, 9)
@@ -106,7 +105,7 @@ def categories(request: HttpRequest, id: int) -> HttpResponse:
 
 def tags(request: HttpRequest, id: int) -> HttpResponse:
     tag = get_object_or_404(Tag, id=id)
-    posts = Post.objects.filter(tags=tag, status=Post.STATUS.published) \
+    posts = Post.objects.filter(tags=tag, status=Post.STATUS.published, type=Post.TYPE.regular) \
         .select_related('category', 'author').prefetch_related('tags').order_by('-created')
 
     paginator = Paginator(posts, 9)

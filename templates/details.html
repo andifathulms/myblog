@@ -267,9 +267,11 @@
                 </div>
 
                 <!-- Featured Image -->
-                <div class="mb-6 sm:mb-8">
-                    <img src="{{ post.featured_image.url }}" alt="Post Image" class="w-full h-auto rounded-lg shadow-md">
-                </div>
+                {% if post.featured_image %}
+                    <div class="mb-6 sm:mb-8">
+                        <img src="{{ post.featured_image.url }}" alt="Post Image" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                {% endif %}
 
                 <!-- Post Content -->
                 <div class="content prose max-w-none text-lg text-gray-700 leading-relaxed text-justify">

@@ -46,6 +46,12 @@ class Post(models.Model):
     )
     language = models.PositiveSmallIntegerField(choices=LANGUAGE)
 
+    TYPE = Choices(
+        (1, 'regular', 'Regular'),
+        (2, 'assignment', 'Assignment')
+    )
+    type = models.PositiveSmallIntegerField(choices=TYPE, default=TYPE.regular)
+
     category = models.ForeignKey(Category, related_name='posts', on_delete=models.SET_NULL,
                                  null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
