@@ -134,9 +134,13 @@ def analytics(request: HttpRequest) -> HttpResponse:
         avg_read_time=Avg('post__read_time', filter=Q(post__status=Post.STATUS.published))
     ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
+    top_posts = Post.objects.filter(status=Post.STATUS.published) \
+        .select_related('category').order_by('-views')[:5]
+
     context_data = {
         'title': 'InsightfulBytes Analytics',
         'categories': categories,
-        'tags': tags
+        'tags': tags,
+        'top_posts': top_posts
     }
     return render(request, "analytics.html", context_data)
