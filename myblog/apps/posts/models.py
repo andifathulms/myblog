@@ -56,6 +56,7 @@ class Post(models.Model):
                                  null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
     content = CKEditor5Field('Text', config_name='extends')
+    has_latex = models.BooleanField(default=False)
     excerpt = models.TextField(blank=True, null=True)
     featured_image = ImageField(upload_to=FilenameGenerator(prefix='feature_images'),
                                 blank=True, null=True)
@@ -112,16 +113,17 @@ class Post(models.Model):
         related_posts = Post.objects.exclude(id=self.id)
         tags = self.tags.all()
         if tags.exists():
-            related_posts = related_posts.filter(tags__in=tags, status=self.STATUS.published) \
+            related_posts = related_posts \
+                .filter(tags__in=tags, status=self.STATUS.published, type=self.type) \
                 .annotate(same_tags=Count('tags')).order_by('-same_tags', '-created')
 
         category = self.category
         if category:
-            related_posts = related_posts | Post.objects.filter(category=category, status=self.STATUS.published) \
+            related_posts = related_posts | Post.objects.filter(category=category, status=self.STATUS.published, type=self.type) \
                 .exclude(id=self.id).order_by('-created')
 
-        if related_posts.count() < 3:
-            latest_posts = Post.objects.filter(status=self.STATUS.published).exclude(id=self.id).order_by('-created')
+        if len(related_posts) < 3:
+            latest_posts = Post.objects.filter(status=self.STATUS.published, type=self.type).exclude(id=self.id).order_by('-created')
             related_posts = related_posts | latest_posts
 
         return related_posts.distinct()[:3]

@@ -312,7 +312,7 @@
                     
                     <!-- Responsive Grid Layout -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                        {% for related_post in related_posts|slice:":3" %}
+                        {% for related_post in related_posts %}
                         <div class="bg-[#FFFBF5] rounded-lg p-4 shadow-neumorphic">
                             <a href="{% url 'details' slug=related_post.slug %}" class="block">
                                 <!-- Fixed Height Image -->
@@ -390,6 +390,21 @@
 {% endblock %}
 
 {% block extra_js %}
+{% if post.has_latex %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreClass: 'tex2jax_ignore'
+            },
+            "HTML-CSS": { availableFonts: ["TeX"], showMathMenu: false }
+        });
+    </script>
+{% endif %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const sections = document.querySelectorAll(".content h1, .content h2");
