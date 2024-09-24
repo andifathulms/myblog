@@ -30,6 +30,12 @@
                             <td colspan="4" class="py-3 px-6 text-center">No categories found.</td>
                         </tr>
                         {% endfor %}
+                        <tr class="bg-gray-200 font-bold">
+                            <td class="py-3 px-6 text-left">Total</td>
+                            <td class="py-3 px-6 text-center">{{ total_metrics.total_posts }}</td>
+                            <td class="py-3 px-6 text-center">{{ total_metrics.total_views|default:0 }}</td>
+                            <td class="py-3 px-6 text-center">{{ total_metrics.avg_read_time|floatformat:1 }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

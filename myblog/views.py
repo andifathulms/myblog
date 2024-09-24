@@ -123,24 +123,31 @@ def tags(request: HttpRequest, id: int) -> HttpResponse:
 
 def analytics(request: HttpRequest) -> HttpResponse:
     categories = Category.objects.annotate(
-        total_posts=Count('posts', filter=Q(posts__status=Post.STATUS.published)),
-        total_views=Sum('posts__views', filter=Q(posts__status=Post.STATUS.published)),
-        avg_read_time=Avg('posts__read_time', filter=Q(posts__status=Post.STATUS.published))
+        total_posts=Count('posts', filter=Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular)),
+        total_views=Sum('posts__views', filter=Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular)),
+        avg_read_time=Avg('posts__read_time', filter=Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular))
     ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
     tags = Tag.objects.annotate(
-        total_posts=Count('post', filter=Q(post__status=Post.STATUS.published)),
-        total_views=Sum('post__views', filter=Q(post__status=Post.STATUS.published)),
-        avg_read_time=Avg('post__read_time', filter=Q(post__status=Post.STATUS.published))
+        total_posts=Count('post', filter=Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular)),
+        total_views=Sum('post__views', filter=Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular)),
+        avg_read_time=Avg('post__read_time', filter=Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular))
     ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
-    top_posts = Post.objects.filter(status=Post.STATUS.published) \
-        .select_related('category').order_by('-views')[:5]
+    total_metrics = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular).aggregate(
+        total_posts=Count('id'),
+        total_views=Sum('views'),
+        avg_read_time=Avg('read_time')
+    )
+
+    top_posts = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular) \
+        .select_related('category').order_by('-views')[:10]
 
     context_data = {
         'title': 'InsightfulBytes Analytics',
         'categories': categories,
         'tags': tags,
+        'total_metrics': total_metrics,
         'top_posts': top_posts
     }
     return render(request, "analytics.html", context_data)
