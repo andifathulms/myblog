@@ -53,9 +53,9 @@ def get_table_of_content(html_content):
 
 
 def get_post_view_threshold(views: int) -> int:
-    if views <= 30:
+    if views <= 100:
         return 1
-    elif views <= 100:
+    elif views <= 300:
         return 3
     elif views <= 1000:
         return 5

@@ -122,26 +122,28 @@ def tags(request: HttpRequest, id: int) -> HttpResponse:
 
 
 def analytics(request: HttpRequest) -> HttpResponse:
+    categories_params = Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular)
     categories = Category.objects.annotate(
-        total_posts=Count('posts', filter=Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular)),
-        total_views=Sum('posts__views', filter=Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular)),
-        avg_read_time=Avg('posts__read_time', filter=Q(posts__status=Post.STATUS.published, posts__type=Post.TYPE.regular))
+        total_posts=Count('posts', filter=categories_params),
+        total_views=Sum('posts__views', filter=categories_params),
+        avg_read_time=Avg('posts__read_time', filter=categories_params)
     ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
+    tags_params = Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular)
     tags = Tag.objects.annotate(
-        total_posts=Count('post', filter=Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular)),
-        total_views=Sum('post__views', filter=Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular)),
-        avg_read_time=Avg('post__read_time', filter=Q(post__status=Post.STATUS.published, post__type=Post.TYPE.regular))
+        total_posts=Count('post', filter=tags_params),
+        total_views=Sum('post__views', filter=tags_params),
+        avg_read_time=Avg('post__read_time', filter=tags_params)
     ).filter(total_posts__gt=0).order_by('-total_posts', '-total_views')
 
-    total_metrics = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular).aggregate(
+    active_posts = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular)
+    total_metrics = active_posts.aggregate(
         total_posts=Count('id'),
         total_views=Sum('views'),
         avg_read_time=Avg('read_time')
     )
 
-    top_posts = Post.objects.filter(status=Post.STATUS.published, type=Post.TYPE.regular) \
-        .select_related('category').order_by('-views')[:10]
+    top_posts = active_posts.select_related('category').order_by('-views')[:10]
 
     context_data = {
         'title': 'InsightfulBytes Analytics',
